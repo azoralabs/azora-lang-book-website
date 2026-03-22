@@ -4,7 +4,7 @@ import Table from '../components/Table.jsx'
 
 export default function Trees() {
   return (
-    <Section id="trees" title="Nodes (Inheritance)">
+    <Section id="trees" title="Inheritance">
       <p className="mt-2 text-az-35">
         Nodes are Azora's class-like types that support inheritance, method override, leaf
         hierarchies, constructors, destructors, and visibility control. Where packs are simple

@@ -78,7 +78,7 @@ export const sections = [
   { id: 'nullable-types', number: 35, title: 'Nullable Types', component: NullableTypes },
   { id: 'standard-library', number: 36, title: 'Standard Library', component: StandardLibrary },
   { id: 'error-handling', number: 37, title: 'Error Handling', component: ErrorHandling },
-  { id: 'trees', number: 38, title: 'Nodes (Inheritance)', component: Trees },
+  { id: 'trees', number: 38, title: 'Inheritance', component: Trees },
   { id: 'bridge-ffi', number: 39, title: 'Bridge (FFI)', component: BridgeFFI },
   { id: 'memory-management', number: 40, title: 'Memory Management', component: MemoryManagement },
   { id: 'compilation-targets', number: 41, title: 'Compilation Targets', component: CompilationTargets },
