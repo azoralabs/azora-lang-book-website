@@ -14,8 +14,8 @@ export default function Introduction() {
 
       <p className="mt-2 text-az-35">
         Azora compiles to multiple backend targets, including Kotlin/JVM, JavaScript, C#, Python,
-        Swift, and LLVM IR. Programs can also run directly in the built-in tree-walking interpreter
-        for rapid prototyping. The compiler uses a pipeline of lexing, parsing, preprocessing
+        Swift, Dart, Rust, LLVM IR, and WebAssembly. Programs can also run directly in the built-in
+        tree-walking interpreter for rapid prototyping. The compiler uses a pipeline of lexing, parsing, preprocessing
         (monomorphization, CTCE, inline expansion), semantic analysis, and code generation.
       </p>
 
@@ -64,7 +64,10 @@ export default function Introduction() {
         <li><strong>C#</strong> - for .NET and Unity</li>
         <li><strong>Python</strong> - for scripting and data science integration</li>
         <li><strong>Swift</strong> - for Apple platforms</li>
+        <li><strong>Dart</strong> - for Flutter and cross-platform mobile applications</li>
+        <li><strong>Rust</strong> - for systems programming with memory safety guarantees</li>
         <li><strong>LLVM IR</strong> - for native compilation with full control over memory and performance</li>
+        <li><strong>WebAssembly</strong> - for high-performance browser and edge runtime targets</li>
         <li><strong>Interpreter</strong> - a built-in tree-walking interpreter for rapid prototyping and development</li>
       </ul>
 

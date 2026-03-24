@@ -240,6 +240,118 @@ function llvm(Prism) {
 llvm.displayName = 'llvm'
 llvm.aliases = ['ll']
 
+// ── Dart language definition ────────────────────────────────────
+function dart(Prism) {
+  Prism.languages.dartlang = {
+    comment: [
+      { pattern: /\/\/.*/, greedy: true },
+      { pattern: /\/\*[\s\S]*?\*\//, greedy: true },
+    ],
+    string: {
+      pattern: /r?"""[\s\S]*?"""|r?'''[\s\S]*?'''|r?"(?:[^"\\]|\\[\s\S])*"|r?'(?:[^'\\]|\\[\s\S])*'/,
+      greedy: true,
+    },
+    annotation: {
+      pattern: /@\w+/,
+    },
+    keyword: /\b(?:abstract|as|assert|async|await|base|bool|break|case|catch|class|const|continue|covariant|default|deferred|do|double|dynamic|else|enum|export|extends|extension|external|factory|false|final|finally|for|Function|get|hide|if|implements|import|in|int|interface|is|late|library|mixin|new|null|on|operator|part|required|rethrow|return|sealed|set|show|static|super|switch|sync|this|throw|true|try|typedef|var|void|when|while|with|yield)\b/,
+    builtin: /\b(?:String|num|List|Map|Set|Future|Stream|Iterable|Object|Never|print|stdout)\b/,
+    boolean: /\b(?:true|false|null)\b/,
+    'class-name': {
+      pattern: /\b[A-Z]\w*\b/,
+    },
+    function: {
+      pattern: /\b[a-z_]\w*(?=\s*[\(<])/,
+    },
+    number: /\b\d[\d_]*(?:\.[\d_]+)?(?:[eE][+-]?\d+)?\b/,
+    operator: /[-+*/%]=?|===?|!==?|<=?|>=?|&&|\|\||\?\?|=>|\.\.\.?|\?\.|\?\!/,
+    punctuation: /[{}[\]();:.,<>@]/,
+  }
+}
+dart.displayName = 'dartlang'
+dart.aliases = []
+
+// ── Rust language definition ───────────────────────────────────
+function rust(Prism) {
+  Prism.languages.rust = {
+    comment: [
+      { pattern: /\/\/.*/, greedy: true },
+      { pattern: /\/\*[\s\S]*?\*\//, greedy: true },
+    ],
+    string: {
+      pattern: /r#*"[\s\S]*?"#*|"(?:[^"\\]|\\[\s\S])*"/,
+      greedy: true,
+    },
+    attribute: {
+      pattern: /#!?\[[\s\S]*?\]/,
+      greedy: true,
+      alias: 'annotation',
+    },
+    keyword: /\b(?:as|async|await|break|const|continue|crate|dyn|else|enum|extern|false|fn|for|if|impl|in|let|loop|match|mod|move|mut|pub|ref|return|self|Self|static|struct|super|trait|true|type|unsafe|use|where|while|yield)\b/,
+    builtin: /\b(?:bool|char|f32|f64|i8|i16|i32|i64|i128|isize|str|u8|u16|u32|u64|u128|usize|String|Vec|HashMap|HashSet|Box|Option|Result|Some|None|Ok|Err|println|format|vec|panic|assert|assert_eq|assert_ne|todo|unimplemented|unreachable)\b/,
+    'macro': {
+      pattern: /\b\w+!/,
+      alias: 'function',
+    },
+    boolean: /\b(?:true|false)\b/,
+    'class-name': {
+      pattern: /\b[A-Z]\w*\b/,
+    },
+    function: {
+      pattern: /\b[a-z_]\w*(?=\s*[\(<])/,
+    },
+    number: /\b\d[\d_]*(?:\.[\d_]+)?(?:[eE][+-]?\d+)?(?:_?(?:f32|f64|i8|i16|i32|i64|i128|isize|u8|u16|u32|u64|u128|usize))?\b/,
+    operator: /[-+*/%]=?|===?|!==?|<=?|>=?|&&|\|\||\?|=>|->|\.\.=?|&|::/,
+    punctuation: /[{}[\]();:.,<>|#]/,
+  }
+}
+rust.displayName = 'rust'
+rust.aliases = ['rs']
+
+// ── WebAssembly Text (WAT) language definition ─────────────────
+function wasm(Prism) {
+  Prism.languages.wasm = {
+    comment: [
+      { pattern: /;;.*/, greedy: true },
+      { pattern: /\(;[\s\S]*?;\)/, greedy: true },
+    ],
+    string: {
+      pattern: /"(?:[^"\\]|\\[\s\S])*"/,
+      greedy: true,
+    },
+    keyword: /\b(?:module|func|param|result|local|global|memory|data|table|elem|type|import|export|start|call|call_indirect|block|loop|if|then|else|end|br|br_if|br_table|return|drop|select|nop|unreachable|memory\.size|memory\.grow|mut|offset|align)\b/,
+    builtin: /\b(?:i32|i64|f32|f64|v128|funcref|externref)(?:\.[a-z_]+)?\b/,
+    variable: {
+      pattern: /\$[\w.]+/,
+    },
+    number: /\b-?(?:0x[0-9a-fA-F]+|\d[\d_]*(?:\.\d+)?(?:[eE][+-]?\d+)?)\b/,
+    operator: /=/,
+    punctuation: /[()]/,
+  }
+}
+wasm.displayName = 'wasm'
+wasm.aliases = ['wat']
+
+// ── Bash language definition ───────────────────────────────────
+function bash(Prism) {
+  Prism.languages.bash = {
+    comment: { pattern: /#.*/, greedy: true },
+    string: {
+      pattern: /"(?:[^"\\]|\\[\s\S])*"|'[^']*'/,
+      greedy: true,
+    },
+    keyword: /\b(?:if|then|else|elif|fi|for|while|do|done|case|esac|in|function|select|until|return|exit)\b/,
+    function: {
+      pattern: /\b[a-z_]\w*(?=\s)/,
+    },
+    variable: /\$[\w?!#@*]+|\$\{[^}]+\}/,
+    operator: /&&|\|\||[|<>]=?|>>|<<|;/,
+    punctuation: /[{}[\]()]/,
+  }
+}
+bash.displayName = 'bash'
+bash.aliases = ['sh']
+
 // ── Register all languages ──────────────────────────────────────
 SyntaxHighlighter.registerLanguage('azora', azora)
 SyntaxHighlighter.registerLanguage('python', python)
@@ -252,6 +364,14 @@ SyntaxHighlighter.registerLanguage('cs', csharp)
 SyntaxHighlighter.registerLanguage('swift', swift)
 SyntaxHighlighter.registerLanguage('llvm', llvm)
 SyntaxHighlighter.registerLanguage('ll', llvm)
+SyntaxHighlighter.registerLanguage('dart', dart)
+SyntaxHighlighter.registerLanguage('dartlang', dart)
+SyntaxHighlighter.registerLanguage('rust', rust)
+SyntaxHighlighter.registerLanguage('rs', rust)
+SyntaxHighlighter.registerLanguage('wasm', wasm)
+SyntaxHighlighter.registerLanguage('wat', wasm)
+SyntaxHighlighter.registerLanguage('bash', bash)
+SyntaxHighlighter.registerLanguage('sh', bash)
 
 // ── Shared dark theme (Azora palette) ───────────────────────────
 const baseTheme = {
@@ -353,6 +473,45 @@ const llvmTheme = {
   number: { color: '#B5CEA8' },
 }
 
+const dartTheme = {
+  ...baseTheme,
+  keyword: { color: '#569CD6', fontWeight: 'bold' },
+  boolean: { color: '#569CD6', fontWeight: 'bold' },
+  builtin: { color: '#4EC9B0' },
+  function: { color: '#DCDCAA' },
+  'class-name': { color: '#4EC9B0' },
+  annotation: { color: '#BBB529' },
+  number: { color: '#B5CEA8' },
+}
+
+const rustTheme = {
+  ...baseTheme,
+  keyword: { color: '#CF8E6D', fontWeight: 'bold' },
+  boolean: { color: '#CF8E6D', fontWeight: 'bold' },
+  builtin: { color: '#4EC9B0' },
+  function: { color: '#56A8F5' },
+  'class-name': { color: '#5FA89F' },
+  annotation: { color: '#E6C96B' },
+  attribute: { color: '#E6C96B' },
+  'macro': { color: '#56A8F5' },
+  number: { color: '#2AACB8' },
+}
+
+const wasmTheme = {
+  ...baseTheme,
+  keyword: { color: '#569CD6', fontWeight: 'bold' },
+  builtin: { color: '#4EC9B0' },
+  variable: { color: '#9CDCFE' },
+  number: { color: '#B5CEA8' },
+}
+
+const bashTheme = {
+  ...baseTheme,
+  keyword: { color: '#CF8E6D', fontWeight: 'bold' },
+  function: { color: '#56A8F5' },
+  variable: { color: '#9CDCFE' },
+}
+
 const themes = {
   azora: azoraTheme,
   python: pythonTheme,
@@ -365,6 +524,14 @@ const themes = {
   swift: swiftTheme,
   llvm: llvmTheme,
   ll: llvmTheme,
+  dart: dartTheme,
+  dartlang: dartTheme,
+  rust: rustTheme,
+  rs: rustTheme,
+  wasm: wasmTheme,
+  wat: wasmTheme,
+  bash: bashTheme,
+  sh: bashTheme,
 }
 
 // ── Language display labels ─────────────────────────────────────
@@ -379,6 +546,14 @@ const langLabels = {
   swift: 'Swift',
   llvm: 'LLVM IR',
   ll: 'LLVM IR',
+  dart: 'Dart',
+  dartlang: 'Dart',
+  rust: 'Rust',
+  rs: 'Rust',
+  wasm: 'WebAssembly',
+  wat: 'WebAssembly',
+  bash: 'Bash',
+  sh: 'Bash',
 }
 
 export default function CodeBlock({ children, title, language }) {

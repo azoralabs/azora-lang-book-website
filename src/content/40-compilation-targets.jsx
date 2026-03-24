@@ -5,7 +5,7 @@ export default function CompilationTargets() {
   return (
     <Section id="compilation-targets" title="Compilation Targets">
       <p className="mt-2 text-az-35">
-        Azora is a multi-target language. The same source code can compile to seven different
+        Azora is a multi-target language. The same source code can compile to ten different
         backends, plus a tree-walking interpreter for development and testing. Each target
         translates Azora constructs into idiomatic code for its platform. The{' '}
         <code className="text-az-primary">@target</code> annotation lets you restrict
@@ -23,6 +23,8 @@ export default function CompilationTargets() {
         <li><strong>C#</strong> (.Csharp), .NET classes and methods</li>
         <li><strong>Python</strong> (.Python), Python 3 classes and functions</li>
         <li><strong>Swift</strong> (.Swift), Swift 6.2 classes and protocols</li>
+        <li><strong>Dart</strong> (.Dart), Dart 3 with sealed classes and sound null safety</li>
+        <li><strong>Rust</strong> (.Rust), Rust structs, traits, and enum variants</li>
         <li><strong>LLVM IR</strong> (.Native), compiles to native machine code via LLVM</li>
         <li><strong>WebAssembly</strong> (.WebWasm), runs in browsers alongside JS</li>
         <li><strong>Interpreter</strong>, tree-walking execution for development and testing</li>
@@ -67,6 +69,8 @@ func connectDatabase(url: String): Connection {
         <li><code className="text-az-primary">.WebWasm</code>, WebAssembly</li>
         <li><code className="text-az-primary">.Csharp</code>, C#</li>
         <li><code className="text-az-primary">.Swift</code>, Swift 6.2</li>
+        <li><code className="text-az-primary">.Dart</code>, Dart 3</li>
+        <li><code className="text-az-primary">.Rust</code>, Rust</li>
       </ul>
       <p className="mt-2 text-az-35">
         Without <code className="text-az-primary">@target</code>, a declaration is compiled for
@@ -244,7 +248,236 @@ class Circle: Drawable {
     }
 }`}</CodeBlock>
 
-      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">40.8 LLVM IR Target</h3>
+      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">40.8 Dart Target</h3>
+      <p className="mt-2 text-az-35">
+        The Dart target generates idiomatic Dart 3 code with sound null safety, sealed classes,
+        and pattern matching. It integrates with Flutter for cross-platform mobile, desktop, and
+        web applications.
+      </p>
+      <ul className="list-disc list-inside mt-2 text-az-35 space-y-1">
+        <li>Packs become Dart classes with named constructor parameters and copyWith()</li>
+        <li>Slots map to Dart <code className="text-az-primary">sealed class</code> with subtype variants</li>
+        <li>Nullable types map directly to Dart null safety (<code className="text-az-primary">Type?</code> syntax)</li>
+        <li><code className="text-az-primary">fin</code> becomes <code className="text-az-primary">final</code>, <code className="text-az-primary">var</code> stays <code className="text-az-primary">var</code></li>
+        <li>Enums use Dart enhanced enum syntax with methods</li>
+        <li>Views generate Flutter <code className="text-az-primary">StatefulWidget</code> classes</li>
+        <li>Match/when maps to Dart 3 <code className="text-az-primary">switch</code> expressions with patterns</li>
+      </ul>
+      <CodeBlock language="azora">{`// Azora source
+slot Shape {
+    Circle(radius: Real),
+    Rectangle(width: Real, height: Real)
+}
+
+func describe(s: Shape): String {
+    return when s {
+        .Circle -> "Circle"
+        .Rectangle -> "Rectangle"
+    }
+}
+
+pack User {
+    name: String
+    age: Int
+}
+
+fin u = User(name: "Alice", age: 30)
+println(u.name)`}</CodeBlock>
+      <p className="mt-2 text-az-35">
+        Generated Dart (simplified):
+      </p>
+      <CodeBlock language="dartlang">{`sealed class Shape {}
+
+class Circle extends Shape {
+  final double radius;
+  Circle({required this.radius});
+}
+
+class Rectangle extends Shape {
+  final double width;
+  final double height;
+  Rectangle({required this.width, required this.height});
+}
+
+String describe(Shape s) {
+  return switch (s) {
+    Circle() => 'Circle',
+    Rectangle() => 'Rectangle',
+  };
+}
+
+class User {
+  String name;
+  int age;
+  User({this.name = '', this.age = 0});
+}
+
+void main() {
+  final u = User(name: 'Alice', age: 30);
+  print(u.name);
+}`}</CodeBlock>
+      <p className="mt-2 text-az-35">
+        Compile with: <code className="text-az-primary">azora compile dart my_script.az</code>
+      </p>
+
+      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">40.9 Rust Target</h3>
+      <p className="mt-2 text-az-35">
+        The Rust target generates idiomatic Rust code. Azora's type system maps closely to
+        Rust's ownership model, pattern matching, and trait system, making this target well
+        suited for systems programming and performance-critical applications.
+      </p>
+      <ul className="list-disc list-inside mt-2 text-az-35 space-y-1">
+        <li>Packs become structs with <code className="text-az-primary">#[derive(Debug, Clone, PartialEq)]</code></li>
+        <li>Specs map to Rust <code className="text-az-primary">trait</code> definitions</li>
+        <li>Slots map to Rust <code className="text-az-primary">enum</code> with variant data (tagged unions)</li>
+        <li>Nullable types map to <code className="text-az-primary">Option&lt;T&gt;</code></li>
+        <li>Operator overloading via <code className="text-az-primary">impl std::ops</code> traits</li>
+        <li>Destructors via <code className="text-az-primary">impl Drop</code></li>
+        <li><code className="text-az-primary">fin</code> becomes <code className="text-az-primary">let</code>, <code className="text-az-primary">var</code> becomes <code className="text-az-primary">let mut</code></li>
+        <li>Match/when maps to Rust <code className="text-az-primary">match</code> expressions</li>
+      </ul>
+      <CodeBlock language="azora">{`// Azora source
+spec Drawable {
+    func draw(): String
+}
+
+pack Circle {
+    var radius: Real
+}
+
+impl Drawable for Circle {
+    func draw(): String { ref self ->
+        return "Circle r=" + self.radius as String
+    }
+}
+
+slot Color {
+    Red,
+    Green,
+    Blue,
+    Custom(r: Int, g: Int, b: Int)
+}
+
+func colorName(c: Color): String {
+    return when c {
+        .Red -> "red"
+        .Green -> "green"
+        .Blue -> "blue"
+        .Custom -> "custom"
+    }
+}
+
+fin c = Circle(radius: 5.0)
+println(c.draw())`}</CodeBlock>
+      <p className="mt-2 text-az-35">
+        Generated Rust (simplified):
+      </p>
+      <CodeBlock language="rust">{`use std::collections::HashMap;
+
+trait Drawable {
+    fn draw(&self) -> String;
+}
+
+#[derive(Debug, Clone, PartialEq)]
+struct Circle {
+    pub radius: f64,
+}
+impl Circle {
+    fn new(radius: f64) -> Self { Self { radius } }
+}
+
+impl Drawable for Circle {
+    fn draw(&self) -> String {
+        format!("Circle r={}", self.radius)
+    }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+enum Color {
+    Red,
+    Green,
+    Blue,
+    Custom { r: i32, g: i32, b: i32 },
+}
+
+fn color_name(c: &Color) -> String {
+    match c {
+        Color::Red => "red".to_string(),
+        Color::Green => "green".to_string(),
+        Color::Blue => "blue".to_string(),
+        Color::Custom { .. } => "custom".to_string(),
+    }
+}
+
+fn main() {
+    let c = Circle::new(5.0);
+    println!("{}", c.draw());
+}`}</CodeBlock>
+      <p className="mt-2 text-az-35">
+        Compile with: <code className="text-az-primary">azora compile rust my_script.az</code>
+      </p>
+
+      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">40.10 WebAssembly Target</h3>
+      <p className="mt-2 text-az-35">
+        The WebAssembly target compiles Azora to WASI-compatible WebAssembly Text format (WAT).
+        The generated WAT is compiled to a binary WASM module using <code className="text-az-primary">wat2wasm</code> and
+        executed with <code className="text-az-primary">wasmtime</code> or any WASI-compatible runtime. WebAssembly
+        runs in browsers, edge runtimes, and standalone environments with near-native performance.
+      </p>
+      <ul className="list-disc list-inside mt-2 text-az-35 space-y-1">
+        <li>Integers map to <code className="text-az-primary">i32</code>, reals to <code className="text-az-primary">f64</code>, strings to memory pointers</li>
+        <li>A built-in bump allocator manages linear memory for arrays, packs, and strings</li>
+        <li>Static strings are pooled in a data segment with length-prefixed encoding</li>
+        <li>WASI <code className="text-az-primary">fd_write</code> provides I/O (println, print)</li>
+        <li>Packs compile to struct-like memory layouts with field-offset access</li>
+        <li>Functions compile directly to WASM <code className="text-az-primary">(func ...)</code> definitions</li>
+        <li>Tests use a global flag pattern since WASM MVP has no exceptions</li>
+      </ul>
+      <CodeBlock language="azora">{`// Azora source
+func factorial(n: Int): Int {
+    if n <= 1 { return 1 }
+    return n * factorial(n - 1)
+}
+
+test "factorial of 5" {
+    assert factorial(5) == 120
+}
+
+test "factorial of 0" {
+    assert factorial(0) == 1
+}`}</CodeBlock>
+      <p className="mt-2 text-az-35">
+        Generated WAT (simplified):
+      </p>
+      <CodeBlock language="wasm">{`(module
+  (import "wasi_snapshot_preview1" "fd_write"
+    (func $fd_write (param i32 i32 i32 i32) (result i32)))
+  (memory (export "memory") 1)
+
+  (func $factorial (param $n i32) (result i32)
+    (if (result i32) (i32.le_s (local.get $n) (i32.const 1))
+      (then (i32.const 1))
+      (else
+        (i32.mul (local.get $n)
+          (call $factorial
+            (i32.sub (local.get $n) (i32.const 1)))))))
+
+  (func $_start (export "_start")
+    ;; test "factorial of 5"
+    (if (i32.ne (call $factorial (i32.const 5)) (i32.const 120))
+      (then (call $__az_println_str (i32.const 1024))))  ;; FAIL
+    (call $__az_println_str (i32.const 1048))             ;; PASS
+    ;; ...
+  )
+)`}</CodeBlock>
+      <p className="mt-2 text-az-35">
+        Build and run:
+      </p>
+      <CodeBlock language="bash">{`azora compile wasm my_script.az    # generates my_script.wat
+wat2wasm my_script.wat -o my_script.wasm
+wasmtime my_script.wasm`}</CodeBlock>
+
+      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">40.11 LLVM IR Target</h3>
       <p className="mt-2 text-az-35">
         The LLVM IR target compiles Azora to LLVM Intermediate Representation in text format.
         This is then compiled to native machine code by LLVM. The native target supports the
@@ -271,7 +504,7 @@ func main() {
     drop buffer
 }`}</CodeBlock>
 
-      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">40.9 The Interpreter</h3>
+      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">40.12 The Interpreter</h3>
       <p className="mt-2 text-az-35">
         Azora includes a tree-walking interpreter that runs your code directly without
         compilation. The interpreter supports all language features and is used for
@@ -301,7 +534,7 @@ test "counter increments correctly" {
     assert c.count == 2 { "count should be 2" }
 }`}</CodeBlock>
 
-      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">40.10 Writing Cross-Platform Code</h3>
+      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">40.13 Writing Cross-Platform Code</h3>
       <p className="mt-2 text-az-35">
         The typical pattern for cross-platform code is to keep shared logic without
         any <code className="text-az-primary">@target</code> annotation, and provide
