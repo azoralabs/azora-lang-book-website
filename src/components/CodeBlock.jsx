@@ -44,11 +44,11 @@ function azora(Prism) {
     },
     number: /\b\d[\d_]*(?:\.[\d_]+)?\b/,
     'type-keyword': {
-      pattern: /\b(?:Int|Real|Bool|String|Unit|Type|ReturnType)\b/,
+      pattern: /\b(?:Int|UInt|Long|ULong|Byte|UByte|Short|UShort|Cent|UCent|Float|Real|Decimal|Bool|Char|String|Unit)\b/,
       alias: 'class-name',
     },
     'builtin-fn': {
-      pattern: /\b(?:print|println|delay|hasDeco|getDeco|decoTargets|platform|toString|toInt|toReal|toChar|stringLength|charAt|ord|chr|promote)\b/,
+      pattern: /\b(?:println)\b/,
       alias: 'builtin',
     },
     boolean: /\b(?:true|false)\b/,
@@ -56,13 +56,13 @@ function azora(Prism) {
       pattern: /\bnull\b/,
       alias: 'boolean',
     },
-    keyword: /\b(?:var|fin|func|hook|test|if|else|for|loop|while|in|as|is|when|return|break|continue|expose|confine|protect|inline|deepinline|noinline|enum|slot|pack|impl|infx|deco|scope|package|use|flip|flop|by|typealias|spec|where|each|type|let|task|suspend|flow|yield|launch|async|await|assert|trace|with|self|this|base|prop|it|fail|try|catch|defer|alloc|drop|node|repl|leaf|ctor|dtor|threadlocal|oper|ref|mut|dyn|out|solo|inject|wrap|bind|lazy|rem|view|effect|guard|throw|rescue|bridge|unsafe|region|isolated|reverse)\b/,
+    keyword: /\b(?:var|fin|let|func|return|package|if|else|inline|deepinline|noinline|zone|friend|test|assert|trace|for|while|loop|in|break|continue|pack)\b/,
     'type-name': {
       pattern: /\b[A-Z][a-zA-Z0-9_]*\b/,
       alias: 'class-name',
     },
     function: {
-      pattern: /\b[a-z_]\w*(?=\s*[\(<])/,
+      pattern: /\b[a-z_]\w*(?=\s*[(<])/,
     },
     operator: /\.\.\.?|->|::|[+\-*/%]=?|&&|\|\||[<>!=]=?|!|\?\?|\?=|\?[+\-*/%]=|\?\+\+|\?--/,
     punctuation: /[{}[\]();:.,<>?]/,
@@ -152,7 +152,7 @@ function kotlin(Prism) {
       pattern: /\b[A-Z]\w*\b/,
     },
     function: {
-      pattern: /\b[a-z_]\w*(?=\s*[\(<])/,
+      pattern: /\b[a-z_]\w*(?=\s*[(<])/,
     },
     number: /\b\d[\d_]*(?:\.[\d_]+)?(?:[eE][+-]?\d+)?[fFLl]?\b/,
     operator: /[-+*/%]=?|===?|!==?|<=?|>=?|&&|\|\||\?[.:!]?|->|\.\./,
@@ -179,7 +179,7 @@ function csharp(Prism) {
       pattern: /\b[A-Z]\w*\b/,
     },
     function: {
-      pattern: /\b[a-z_]\w*(?=\s*[\(<])/,
+      pattern: /\b[a-z_]\w*(?=\s*[(<])/,
     },
     number: /\b\d[\d_]*(?:\.[\d_]+)?(?:[eE][+-]?\d+)?[fFdDmMlLuU]*\b/,
     operator: /[-+*/%]=?|===?|!==?|<=?|>=?|&&|\|\||\?\??|=>|\.\./,
@@ -206,7 +206,7 @@ function swift(Prism) {
       pattern: /\b[A-Z]\w*\b/,
     },
     function: {
-      pattern: /\b[a-z_]\w*(?=\s*[\(<])/,
+      pattern: /\b[a-z_]\w*(?=\s*[(<])/,
     },
     number: /\b\d[\d_]*(?:\.[\d_]+)?(?:[eE][+-]?\d+)?\b/,
     operator: /[-+*/%]=?|===?|!==?|<=?|>=?|&&|\|\||\?\??|->|\.\.\.|\.\.<?/,
@@ -261,10 +261,10 @@ function dart(Prism) {
       pattern: /\b[A-Z]\w*\b/,
     },
     function: {
-      pattern: /\b[a-z_]\w*(?=\s*[\(<])/,
+      pattern: /\b[a-z_]\w*(?=\s*[(<])/,
     },
     number: /\b\d[\d_]*(?:\.[\d_]+)?(?:[eE][+-]?\d+)?\b/,
-    operator: /[-+*/%]=?|===?|!==?|<=?|>=?|&&|\|\||\?\?|=>|\.\.\.?|\?\.|\?\!/,
+    operator: /[-+*/%]=?|===?|!==?|<=?|>=?|&&|\|\||\?\?|=>|\.\.\.?|\?\.|\?!/,
     punctuation: /[{}[\]();:.,<>@]/,
   }
 }
@@ -298,7 +298,7 @@ function rust(Prism) {
       pattern: /\b[A-Z]\w*\b/,
     },
     function: {
-      pattern: /\b[a-z_]\w*(?=\s*[\(<])/,
+      pattern: /\b[a-z_]\w*(?=\s*[(<])/,
     },
     number: /\b\d[\d_]*(?:\.[\d_]+)?(?:[eE][+-]?\d+)?(?:_?(?:f32|f64|i8|i16|i32|i64|i128|isize|u8|u16|u32|u64|u128|usize))?\b/,
     operator: /[-+*/%]=?|===?|!==?|<=?|>=?|&&|\|\||\?|=>|->|\.\.=?|&|::/,
@@ -357,6 +357,8 @@ SyntaxHighlighter.registerLanguage('azora', azora)
 SyntaxHighlighter.registerLanguage('python', python)
 SyntaxHighlighter.registerLanguage('javascript', javascript)
 SyntaxHighlighter.registerLanguage('js', javascript)
+SyntaxHighlighter.registerLanguage('typescript', javascript)
+SyntaxHighlighter.registerLanguage('ts', javascript)
 SyntaxHighlighter.registerLanguage('kotlin', kotlin)
 SyntaxHighlighter.registerLanguage('kt', kotlin)
 SyntaxHighlighter.registerLanguage('csharp', csharp)
@@ -517,6 +519,8 @@ const themes = {
   python: pythonTheme,
   javascript: javascriptTheme,
   js: javascriptTheme,
+  typescript: javascriptTheme,
+  ts: javascriptTheme,
   kotlin: kotlinTheme,
   kt: kotlinTheme,
   csharp: csharpTheme,
@@ -539,6 +543,8 @@ const langLabels = {
   python: 'Python',
   javascript: 'JavaScript',
   js: 'JavaScript',
+  typescript: 'TypeScript',
+  ts: 'TypeScript',
   kotlin: 'Kotlin',
   kt: 'Kotlin',
   csharp: 'C#',

@@ -29,13 +29,13 @@ export default function App() {
     }
   }, [])
 
-  const goPrev = () => {
+  const goPrev = useCallback(() => {
     if (page > 0) navigateTo(sections[page - 1].id)
-  }
+  }, [page, navigateTo])
 
-  const goNext = () => {
+  const goNext = useCallback(() => {
     if (page < sections.length - 1) navigateTo(sections[page + 1].id)
-  }
+  }, [page, navigateTo])
 
   useEffect(() => {
     const onKey = (e) => {
@@ -44,7 +44,7 @@ export default function App() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [page])
+  }, [goPrev, goNext])
 
   const current = sections[page]
   const Component = current.component
