@@ -5,27 +5,23 @@ export default function Roadmap() {
     {
       title: 'Type system',
       items: [
-        'Generics (parametric and variadic) with monomorphization',
-        'Traits (spec) and impl blocks for ad-hoc polymorphism',
-        'Enums and slots (tagged unions)',
-        'Tuples and tuple types',
-        'Type aliases',
+        
+        'Slots (tagged unions with payloads)',
+        'Variadic generics',
       ],
     },
     {
       title: 'Functions & closures',
       items: [
-        'Lambdas and closures with function types',
         'Trailing-lambda call syntax and an implicit `it`',
         'Named arguments',
         'Operator overloading and infix functions',
       ],
     },
     {
-      title: 'Pattern matching & errors',
+      title: 'Errors & control',
       items: [
-        'when / match expressions with patterns',
-        'Error sets, error unions (T!E), try / catch / throw',
+        'Error sets and error unions (T!E)',
         'guard and defer',
       ],
     },
@@ -52,7 +48,7 @@ export default function Roadmap() {
   ]
 
   return (
-    <Section id="roadmap" title="15. Roadmap">
+    <Section id="roadmap" title="22. Roadmap">
       <p className="mt-2 text-az-35">
         Azora is under active development. This chapter lists what is designed but not yet
         implemented by the compiler. Each item is part of the language's intended shape; the

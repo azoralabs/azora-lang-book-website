@@ -33,8 +33,12 @@ export default function Introduction() {
         <li><strong className="text-az-25">Scopes</strong> — <code className="text-az-primary">zone</code>, <code className="text-az-primary">friend zone</code>, and <code className="text-az-primary">::</code> scope resolution</li>
         <li><strong className="text-az-25">Control flow</strong> — <code className="text-az-primary">if</code>, <code className="text-az-primary">while</code>, <code className="text-az-primary">for</code> ranges, <code className="text-az-primary">loop</code>, <code className="text-az-primary">break</code>, <code className="text-az-primary">continue</code></li>
         <li><strong className="text-az-25">Arrays</strong> with indexing, mutation, and built-in members</li>
-        <li><strong className="text-az-25">Structs</strong> (<code className="text-az-primary">pack</code>) with construction and fields</li>
+        <li><strong className="text-az-25">Structs</strong> (<code className="text-az-primary">pack</code>) with construction, fields, and <code className="text-az-primary">impl</code> methods</li>
+        <li><strong className="text-az-25">Lambdas</strong> &amp; function types with closures</li>
         <li><strong className="text-az-25">String interpolation</strong> — <code className="text-az-primary">{`"hello $name"`}</code> and <code className="text-az-primary">{'"${expr}"'}</code></li>
+        <li><strong className="text-az-25">Enums &amp; when</strong> — tagged variants and pattern matching</li>
+        <li><strong className="text-az-25">Tuples</strong> — lightweight grouped values</li>
+        <li><strong className="text-az-25">Error handling</strong> — <code className="text-az-primary">throw</code>, <code className="text-az-primary">try</code>/<code className="text-az-primary">catch</code></li>
         <li><strong className="text-az-25">Testing</strong> with <code className="text-az-primary">test</code>, <code className="text-az-primary">assert</code>, and <code className="text-az-primary">trace</code></li>
       </ul>
       <p className="mt-4 text-az-35">

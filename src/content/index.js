@@ -12,6 +12,13 @@ import Scopes from './11-scopes.jsx'
 import CTCE from './12-ctce.jsx'
 import Testing from './13-testing.jsx'
 import CompilationTargets from './14-compilation-targets.jsx'
+import EnumsWhen from './15-enums-when.jsx'
+import Tuples from './16-tuples.jsx'
+import ErrorHandling from './17-error-handling.jsx'
+import ImplMethods from './18-impl-methods.jsx'
+import Lambdas from './19-lambdas.jsx'
+import Generics from './20-generics.jsx'
+import Traits from './21-traits.jsx'
 import Roadmap from './15-roadmap.jsx'
 
 export const sections = [
@@ -29,5 +36,12 @@ export const sections = [
   { id: 'ctce', number: 12, title: 'Compile-Time Execution', component: CTCE },
   { id: 'testing', number: 13, title: 'Testing & Tracing', component: Testing },
   { id: 'compilation-targets', number: 14, title: 'Compilation Targets', component: CompilationTargets },
-  { id: 'roadmap', number: 15, title: 'Roadmap', component: Roadmap },
+  { id: 'enums-when', number: 15, title: 'Enums & When', component: EnumsWhen },
+  { id: 'tuples', number: 16, title: 'Tuples', component: Tuples },
+  { id: 'error-handling', number: 17, title: 'Error Handling', component: ErrorHandling },
+  { id: 'impl-methods', number: 18, title: 'Impl Methods', component: ImplMethods },
+  { id: 'lambdas', number: 19, title: 'Lambdas', component: Lambdas },
+  { id: 'generics', number: 20, title: 'Generics', component: Generics },
+  { id: 'traits', number: 21, title: 'Traits (spec)', component: Traits },
+  { id: 'roadmap', number: 22, title: 'Roadmap', component: Roadmap },
 ]
