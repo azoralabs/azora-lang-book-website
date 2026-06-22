@@ -5,24 +5,8 @@ export default function Roadmap() {
     {
       title: 'Type system',
       items: [
-        
-        'Slots (tagged unions with payloads)',
         'Variadic generics',
-      ],
-    },
-    {
-      title: 'Functions & closures',
-      items: [
-        'Trailing-lambda call syntax and an implicit `it`',
-        'Named arguments',
-        'Operator overloading and infix functions',
-      ],
-    },
-    {
-      title: 'Errors & control',
-      items: [
-        'Error sets and error unions (T!E)',
-        'guard and defer',
+        'Fail-set error unions (T!E)',
       ],
     },
     {
@@ -40,15 +24,13 @@ export default function Roadmap() {
       title: 'Platform',
       items: [
         'Modules, packages, and use imports',
-        'A standard library (containers, math, strings, algorithms)',
         'Reactive UI components (view / rem / effect)',
-        'A project build tool and the full CLI',
       ],
     },
   ]
 
   return (
-    <Section id="roadmap" title="22. Roadmap">
+    <Section id="roadmap" title="26. Roadmap">
       <p className="mt-2 text-az-35">
         Azora is under active development. This chapter lists what is designed but not yet
         implemented by the compiler. Each item is part of the language's intended shape; the

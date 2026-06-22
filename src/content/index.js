@@ -19,6 +19,10 @@ import ImplMethods from './18-impl-methods.jsx'
 import Lambdas from './19-lambdas.jsx'
 import Generics from './20-generics.jsx'
 import Traits from './21-traits.jsx'
+import InfixFunctions from './22-infix-functions.jsx'
+import BitwiseOps from './23-bitwise-ops.jsx'
+import NullableTypes from './24-nullable-types.jsx'
+import AdvancedFeatures from './25-advanced-features.jsx'
 import Roadmap from './15-roadmap.jsx'
 
 export const sections = [
@@ -43,5 +47,9 @@ export const sections = [
   { id: 'lambdas', number: 19, title: 'Lambdas', component: Lambdas },
   { id: 'generics', number: 20, title: 'Generics', component: Generics },
   { id: 'traits', number: 21, title: 'Traits (spec)', component: Traits },
-  { id: 'roadmap', number: 22, title: 'Roadmap', component: Roadmap },
+  { id: 'infix-functions', number: 22, title: 'Infix Functions', component: InfixFunctions },
+  { id: 'bitwise-ops', number: 23, title: 'Bitwise Operators', component: BitwiseOps },
+  { id: 'nullable-types', number: 24, title: 'Nullable Types', component: NullableTypes },
+  { id: 'advanced-features', number: 25, title: 'Advanced Features', component: AdvancedFeatures },
+  { id: 'roadmap', number: 26, title: 'Roadmap', component: Roadmap },
 ]

@@ -39,11 +39,16 @@ export default function Introduction() {
         <li><strong className="text-az-25">Enums &amp; when</strong> — tagged variants and pattern matching</li>
         <li><strong className="text-az-25">Tuples</strong> — lightweight grouped values</li>
         <li><strong className="text-az-25">Error handling</strong> — <code className="text-az-primary">throw</code>, <code className="text-az-primary">try</code>/<code className="text-az-primary">catch</code></li>
+        <li><strong className="text-az-25">Bitwise operators</strong> — <code className="text-az-primary">&</code> <code className="text-az-primary">|</code> <code className="text-az-primary">^</code> <code className="text-az-primary">~</code> <code className="text-az-primary">&lt;&lt;</code> <code className="text-az-primary">&gt;&gt;</code></li>
+        <li><strong className="text-az-25">Nullable types</strong> — <code className="text-az-primary">T?</code>, <code className="text-az-primary">null</code>, <code className="text-az-primary">?.</code>, and <code className="text-az-primary">??</code></li>
+        <li><strong className="text-az-25">Infix functions</strong> — <code className="text-az-primary">a plus b</code> call syntax</li>
+        <li><strong className="text-az-25">Casts &amp; checks</strong> — <code className="text-az-primary">as</code> and <code className="text-az-primary">is</code></li>
+        <li><strong className="text-az-25">guard &amp; defer</strong> — early exits and scoped cleanup</li>
         <li><strong className="text-az-25">Testing</strong> with <code className="text-az-primary">test</code>, <code className="text-az-primary">assert</code>, and <code className="text-az-primary">trace</code></li>
       </ul>
       <p className="mt-4 text-az-35">
-        Features that are designed but not yet implemented — generics, traits, enums, lambdas,
-        pointers, concurrency, and more — are listed in the <a href="#roadmap" className="text-az-primary underline">Roadmap</a> chapter.
+        Features that are designed but not yet implemented — pointers, concurrency, decorators,
+        foreign function interface, and more — are listed in the <a href="#roadmap" className="text-az-primary underline">Roadmap</a> chapter.
       </p>
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">Design principles</h3>
