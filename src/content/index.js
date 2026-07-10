@@ -23,6 +23,16 @@ import InfixFunctions from './22-infix-functions.jsx'
 import BitwiseOps from './23-bitwise-ops.jsx'
 import NullableTypes from './24-nullable-types.jsx'
 import AdvancedFeatures from './25-advanced-features.jsx'
+import Maps from './26-maps.jsx'
+import TaggedUnions from './27-tagged-unions.jsx'
+import Inheritance from './28-inheritance.jsx'
+import MemoryModel from './29-memory-model.jsx'
+import ErrorSets from './30-error-sets.jsx'
+import Concurrency from './31-concurrency.jsx'
+import DependencyInjection from './32-dependency-injection.jsx'
+import Ffi from './33-ffi.jsx'
+import Reactivity from './34-reactivity.jsx'
+import AdvancedTypes from './35-advanced-types.jsx'
 import Roadmap from './15-roadmap.jsx'
 
 export const sections = [
@@ -51,5 +61,15 @@ export const sections = [
   { id: 'bitwise-ops', number: 23, title: 'Bitwise Operators', component: BitwiseOps },
   { id: 'nullable-types', number: 24, title: 'Nullable Types', component: NullableTypes },
   { id: 'advanced-features', number: 25, title: 'Advanced Features', component: AdvancedFeatures },
-  { id: 'roadmap', number: 26, title: 'Roadmap', component: Roadmap },
+  { id: 'maps', number: 26, title: 'Maps', component: Maps },
+  { id: 'tagged-unions', number: 27, title: 'Tagged Unions (slot)', component: TaggedUnions },
+  { id: 'inheritance', number: 28, title: 'Inheritance', component: Inheritance },
+  { id: 'memory-model', number: 29, title: 'The Memory Model', component: MemoryModel },
+  { id: 'error-sets', number: 30, title: 'Error Sets & Failable Types', component: ErrorSets },
+  { id: 'concurrency', number: 31, title: 'Concurrency', component: Concurrency },
+  { id: 'dependency-injection', number: 32, title: 'Dependency Injection', component: DependencyInjection },
+  { id: 'ffi', number: 33, title: 'Foreign Function Interface', component: Ffi },
+  { id: 'reactivity', number: 34, title: 'Reactivity & Components', component: Reactivity },
+  { id: 'advanced-types', number: 35, title: 'Advanced Types & Modifiers', component: AdvancedTypes },
+  { id: 'roadmap', number: 36, title: 'Roadmap', component: Roadmap },
 ]

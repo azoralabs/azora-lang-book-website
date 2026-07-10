@@ -5,9 +5,11 @@ export default function CompilationTargets() {
   return (
     <Section id="compilation-targets" title="14. Compilation Targets">
       <p className="mt-2 text-az-35">
-        One Azora program lowers to several targets from the same typed IR. The currently supported
-        backends are Kotlin (JVM), TypeScript, LLVM IR, and a built-in interpreter that runs the IR
-        directly.
+        One Azora program lowers to <strong>nine</strong> source targets from the same typed IR —
+        Kotlin (JVM), TypeScript, Swift, Dart, C# / .NET, Python 3, Rust, WebAssembly (WAT), and LLVM
+        IR — plus a built-in interpreter that runs the IR directly. Every compile produces all of
+        them at once; <code className="text-az-primary">azora compile &lt;target&gt;</code> emits the
+        one you ask for. Below are three representative outputs for a tiny program.
       </p>
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">14.1 A sample program</h3>

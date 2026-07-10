@@ -56,7 +56,7 @@ function azora(Prism) {
       pattern: /\bnull\b/,
       alias: 'boolean',
     },
-    keyword: /\b(?:var|fin|let|func|return|package|if|else|inline|deepinline|noinline|zone|friend|test|assert|trace|for|while|loop|in|break|continue|pack)\b/,
+    keyword: /\b(?:var|fin|let|func|return|package|module|use|if|else|inline|deepinline|noinline|zone|friend|test|assert|trace|for|while|loop|in|by|reverse|break|continue|when|guard|defer|rescue|as|is|null|pack|enum|slot|impl|spec|typealias|node|leaf|repl|virt|base|fail|flow|yield|task|await|launch|alloc|drop|unsafe|isolated|bridge|solo|inject|wrap|rem|effect|view|hook|prop|ctor|dtor|flip|flop|deco|oper|infx|expose|confine|protect|ref|out|mut|shared|weak|threadlocal|throw|try|catch)\b/,
     'type-name': {
       pattern: /\b[A-Z][a-zA-Z0-9_]*\b/,
       alias: 'class-name',
