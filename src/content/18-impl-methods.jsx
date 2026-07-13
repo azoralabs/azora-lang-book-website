@@ -1,3 +1,4 @@
+
 import Section from '../components/Section.jsx'
 import CodeBlock from '../components/CodeBlock.jsx'
 
@@ -5,10 +6,10 @@ export default function ImplMethods() {
   return (
     <Section id="impl-methods" title="18. Impl Methods">
       <p className="mt-2 text-az-35">
-        An <code className="text-az-primary">impl</code> block attaches methods to a{' '}
-        <code className="text-az-primary">pack</code>. Inside a method,{' '}
-        <code className="text-az-primary">self</code> refers to the value the method was called on,
-        so methods can read and mutate its fields.
+        An <code className="text-az-primary">impl pack</code> block attaches methods to a{' '}
+        <code className="text-az-primary">pack</code> in the file where that pack is declared. Inside
+        a method, <code className="text-az-primary">self</code> refers to the receiver, so methods can
+        read and mutate its fields.
       </p>
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">18.1 Defining methods</h3>
@@ -17,7 +18,7 @@ export default function ImplMethods() {
     var y: Int
 }
 
-impl Point {
+impl pack Point {
     func lengthSquared(): Int {
         return self.x * self.x + self.y * self.y
     }
@@ -27,52 +28,48 @@ impl Point {
     }
 }`}</CodeBlock>
 
-      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">18.2 Calling methods</h3>
+      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">18.2 Extensions</h3>
       <p className="mt-2 text-az-35">
-        Call a method with dot syntax: <code className="text-az-primary">value.method(args)</code>.
-        Methods can read fields, compute results, and (if the fields are{' '}
-        <code className="text-az-primary">var</code>) mutate them.
+        Outside the declaring file, add behavior with extension functions. Their receiver is declared
+        inside the body header as <code className="text-az-primary">ref self</code> or{' '}
+        <code className="text-az-primary">mut ref self</code>.
       </p>
       <CodeBlock>{`pack Point {
     var x: Int
     var y: Int
 }
 
-impl Point {
-    func lengthSquared(): Int {
-        return self.x * self.x + self.y * self.y
-    }
-    func moveBy(dx: Int, dy: Int) {
-        self.x = self.x + dx
-        self.y = self.y + dy
+func Point.lengthSquared(): Int { ref self ->
+    return self.x * self.x + self.y * self.y
+}`}</CodeBlock>
+
+      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">18.3 Extension mutability</h3>
+      <p className="mt-2 text-az-35">
+        Extension functions can take <code className="text-az-primary">mut ref self</code> only
+        when the pack exposes mutable state. If a pack has no <code className="text-az-primary">expose</code>{' '}
+        fields, extensions are limited to <code className="text-az-primary">ref self</code>; methods in
+        the declaring file still use <code className="text-az-primary">impl pack</code> for internal mutation.
+      </p>
+      <CodeBlock>{`pack Counter {
+    var value: Int
+}
+
+impl pack Counter {
+    func bump() {
+        self.value = self.value + 1
     }
 }
 
-func main() {
+func Counter.peek(): Int { ref self ->
+    return self.value
+}`}</CodeBlock>
+
+      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">18.4 Calling methods</h3>
+      <CodeBlock>{`func main() {
     var p = Point(3, 4)
-    println(p.lengthSquared())   // 25  (3*3 + 4*4)
+    println(p.lengthSquared())   // 25
     p.moveBy(10, 20)
-    println(p.lengthSquared())   // 725 (13*13 + 24*24)
-}`}</CodeBlock>
-
-      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">18.3 Methods on values in collections</h3>
-      <p className="mt-2 text-az-35">
-        Methods work on any value of the type, including elements pulled from an array.
-      </p>
-      <CodeBlock>{`pack Point {
-    var x: Int
-    var y: Int
-}
-
-impl Point {
-    func lengthSquared(): Int {
-        return self.x * self.x + self.y * self.y
-    }
-}
-
-func main() {
-    fin pts = [Point(1, 1), Point(3, 4), Point(5, 5)]
-    println(pts[1].lengthSquared())   // 25
+    println(p.lengthSquared())   // 725
 }`}</CodeBlock>
     </Section>
   )

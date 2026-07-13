@@ -64,7 +64,7 @@ export default function App() {
         <div className="flex items-center gap-2">
           <span className="text-xl font-bold text-az-primary">Az</span>
           <span className="font-semibold text-az-25">Azora Language Book</span>
-          <span className="text-xs text-az-50 ml-2">v0.0.1</span>
+          <span className="text-xs text-az-50 ml-2">v0.0.3</span>
         </div>
       </header>
 
@@ -115,7 +115,7 @@ export default function App() {
 
           {/* Footer */}
           <footer className="mt-10 pt-6 border-t border-az-75 text-center text-sm text-az-neutral pb-10">
-            <p>Azora Language Book v0.0.1, DoubleGArts</p>
+            <p>Azora Language Book v0.0.3, DoubleGArts</p>
           </footer>
         </div>
       </main>

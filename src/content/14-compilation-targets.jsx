@@ -1,3 +1,4 @@
+
 import Section from '../components/Section.jsx'
 import CodeBlock from '../components/CodeBlock.jsx'
 
@@ -5,11 +6,10 @@ export default function CompilationTargets() {
   return (
     <Section id="compilation-targets" title="14. Compilation Targets">
       <p className="mt-2 text-az-35">
-        One Azora program lowers to <strong>nine</strong> source targets from the same typed IR —
-        Kotlin (JVM), TypeScript, Swift, Dart, C# / .NET, Python 3, Rust, WebAssembly (WAT), and LLVM
-        IR — plus a built-in interpreter that runs the IR directly. Every compile produces all of
-        them at once; <code className="text-az-primary">azora compile &lt;target&gt;</code> emits the
-        one you ask for. Below are three representative outputs for a tiny program.
+        Azora 0.0.3 has four active execution surfaces from the same typed IR: the in-memory
+        interpreter, JavaScript, WebAssembly (WAT), and LLVM IR. Every compile produces the codegen
+        outputs together; <code className="text-az-primary">azora compile &lt;target&gt;</code> emits the
+        one you ask for.
       </p>
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">14.1 A sample program</h3>
@@ -21,25 +21,29 @@ func main() {
     println(add(2, 3))
 }`}</CodeBlock>
 
-      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">14.2 Kotlin (JVM)</h3>
-      <CodeBlock language="kotlin">{`fun add(a: Int, b: Int): Int {
-    return (a + b)
-}
-
-fun main(): Unit {
-    println(add(2, 3))
-}`}</CodeBlock>
-
-      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">14.3 TypeScript</h3>
-      <CodeBlock language="typescript">{`function add(a: number, b: number): number {
+      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">14.2 JavaScript</h3>
+      <CodeBlock language="javascript">{`function add(a, b) {
     return (a + b);
 }
 
-function main(): void {
+function main() {
     console.log(add(2, 3));
 }
 
-main()`}</CodeBlock>
+main();`}</CodeBlock>
+
+      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">14.3 WebAssembly</h3>
+      <p className="mt-2 text-az-35">
+        The WASM backend emits WebAssembly text with host imports for printing and a compact linear
+        memory runtime for strings, arrays, and packs.
+      </p>
+      <CodeBlock language="wasm">{`(module
+  (import "env" "print_i32" (func $print_i32 (param i32)))
+  (func $add (param $a i32) (param $b i32) (result i32)
+    (i32.add (local.get $a) (local.get $b)))
+  (func $main
+    (call $print_i32 (call $add (i32.const 2) (i32.const 3))))
+  (export "main" (func $main)))`}</CodeBlock>
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">14.4 LLVM IR</h3>
       <p className="mt-2 text-az-35">

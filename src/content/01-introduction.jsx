@@ -8,8 +8,8 @@ export default function Introduction() {
         <strong className="text-az-25">Azora</strong> is a small, statically-typed, multi-target
         programming language. It compiles through a modern four-phase pipeline — frontend,
         multi-pass semantic analysis with compile-time execution, a target-agnostic typed IR, and
-        thin backends — and can lower a single program to Kotlin, TypeScript, LLVM IR, or run it
-        directly through a built-in interpreter.
+        thin backends — and can lower a single program to JavaScript, WebAssembly, LLVM IR,
+        or run it directly through a built-in interpreter.
       </p>
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">A first program</h3>

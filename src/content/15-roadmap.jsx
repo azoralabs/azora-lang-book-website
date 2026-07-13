@@ -11,15 +11,15 @@ export default function Roadmap() {
     'Foreign function interface, bridge (ch. 33)',
     'Dependency injection — solo / wrap / inject (ch. 32)',
     'Inheritance — node / leaf / repl / virt / base (ch. 28)',
-    'Reactive components — view / rem / effect (ch. 34)',
-    'Nine codegen targets — Kotlin, TypeScript, Swift, Dart, C#, Python, Rust, WebAssembly, LLVM (ch. 14)',
+    'Reactive components — mem / rem / ret / effect / view (ch. 34)',
+    'Active codegen targets — JavaScript, WebAssembly, LLVM, plus the interpreter (ch. 14)',
   ]
 
   const groups = [
     {
       title: 'Language',
       items: [
-        'Full reactivity — automatic dependency tracking so rem/effect re-run when state changes (today they run once).',
+        'Full reactivity — automatic dependency tracking so mem/rem/ret/effect re-run when state changes (today they run once).',
         'UI rendering — view components compile and run, but the core compiler has no built-in DOM/Compose renderer (the web target lives in the engine).',
         'Stronger T!E enforcement — failable types are checked on the declaration side; full call-site propagation is future work.',
         'Fixed-size arrays [T; N] and ref reference bindings.',
@@ -29,7 +29,7 @@ export default function Roadmap() {
       title: 'Backends',
       items: [
         'LLVM IR — placeholders remain for closures, defer, and compound types.',
-        'Multi-statement lambda codegen is best-effort in the Kotlin and TypeScript backends.',
+        'Multi-statement lambda codegen is best-effort in the active source backends.',
         'Generics use type erasure (field types are Any at runtime).',
       ],
     },

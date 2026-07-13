@@ -86,6 +86,15 @@ func main() {
     }
     println(sum)          // 42 (0+1+2+4+5+6+7+8+9)
 }`}</CodeBlock>
+
+      <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">8.5 Iterator loop continue</h3>
+      <p className="mt-2 text-az-35">
+        <code className="text-az-primary">loop iterator continue {`{ }`}</code> uses the iterator's
+        current state and skips the initial <code className="text-az-primary">reset()</code> call.
+      </p>
+      <CodeBlock>{`loop it continue {
+    println(it.next())
+}`}</CodeBlock>
     </Section>
   )
 }

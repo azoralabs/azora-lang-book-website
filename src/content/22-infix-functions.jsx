@@ -13,18 +13,15 @@ export default function InfixFunctions() {
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">22.1 Declaring an infix method</h3>
       <p className="mt-2 text-az-35">
-        Mark a single-parameter method with <code className="text-az-primary">infix</code> inside an{' '}
-        <code className="text-az-primary">impl</code> block.
+        Declare a single-parameter infix extension with <code className="text-az-primary">infx Type.method</code>.
       </p>
       <CodeBlock>{`pack Vec2 {
     var x: Int
     var y: Int
 }
 
-impl Vec2 {
-    infix func plus(other: Vec2): Vec2 {
-        return Vec2(self.x + other.x, self.y + other.y)
-    }
+infx Vec2.plus(other: Vec2): Vec2 {
+    return Vec2(self.x + other.x, self.y + other.y)
 }
 
 func main() {

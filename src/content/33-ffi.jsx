@@ -6,9 +6,9 @@ export default function Ffi() {
     <Section id="ffi" title="33. Foreign Function Interface (bridge)">
       <p className="mt-2 text-az-35">
         A <code className="text-az-primary">bridge</code> declares external functions for cross-target
-        interop — C libraries on native targets, the JVM, JS, and so on. You write the signatures;
-        the compiler type-checks them and each backend emits the right extern declaration. In the
-        interpreter, common math functions resolve to a built-in table.
+        interop for the active backends. You write the signatures; the compiler type-checks
+        them and JavaScript/LLVM expose the host boundary in their generated output. In the interpreter,
+        common math functions resolve to a built-in table.
       </p>
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">33.1 Declaring extern functions</h3>
@@ -36,9 +36,7 @@ func main() {
 }`}</CodeBlock>
 
       <p className="mt-4 text-az-35">
-        What each backend emits: Kotlin{' '}
-        <code className="text-az-primary">external fun</code>, TypeScript{' '}
-        <code className="text-az-primary">declare function</code>, and LLVM{' '}
+        What each backend emits: JavaScript host extern comments/import expectations and LLVM{' '}
         <code className="text-az-primary">declare</code>. Use{' '}
         <code className="text-az-primary">azora compile llvm pow.az</code> to see the declaration.
       </p>

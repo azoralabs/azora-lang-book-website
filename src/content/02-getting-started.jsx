@@ -58,7 +58,7 @@ func main() {
       <p className="mt-2 text-az-35">
         Every program can be executed directly through the IR interpreter, or lowered to a target
         backend. See the <a href="#compilation-targets" className="text-az-primary underline">Compilation Targets</a> chapter for the generated
-        Kotlin, TypeScript, and LLVM IR for a sample program.
+        JavaScript, WebAssembly, and LLVM IR for a sample program.
       </p>
     </Section>
   )
