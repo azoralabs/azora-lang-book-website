@@ -50,9 +50,9 @@ export default function App() {
   const Component = current.component
 
   return (
-    <div className="min-h-screen bg-az-90 text-az-10 transition-colors">
+    <div className="book-shell min-h-screen bg-az-90 text-az-10 transition-colors">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-30 h-14 bg-az-90/80 backdrop-blur-md border-b border-az-75 flex items-center px-4">
+      <header className="book-topbar fixed top-0 left-0 right-0 z-30 h-14 bg-az-90/80 backdrop-blur-md border-b border-az-75 flex items-center px-4">
         <button
           onClick={() => setMobileOpen(true)}
           className="lg:hidden mr-3 p-1.5 text-az-neutral hover:text-az-25 cursor-pointer"
@@ -61,10 +61,11 @@ export default function App() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <div className="flex items-center gap-2">
-          <span className="text-xl font-bold text-az-primary">Az</span>
-          <span className="font-semibold text-az-25">Azora Language Book</span>
-          <span className="text-xs text-az-50 ml-2">v0.0.3</span>
+        <div className="book-brand flex items-center gap-2">
+          <img src="/azora_logo.svg" alt="Azora" className="book-brand__logo" />
+          <span className="book-brand__name">Azora</span>
+          <span className="book-brand__product">Language Book</span>
+          <span className="version-tag">v0.0.3</span>
         </div>
       </header>
 
@@ -78,12 +79,12 @@ export default function App() {
       />
 
       {/* Desktop sidebar */}
-      <aside className="hidden lg:block fixed top-14 left-0 w-72 h-[calc(100vh-3.5rem)] border-r border-az-75 bg-az-90 overflow-hidden">
+      <aside className="book-sidebar hidden lg:block fixed top-14 left-0 w-72 h-[calc(100vh-3.5rem)] border-r border-az-75 bg-az-90 overflow-hidden">
         <Sidebar sections={sections} activeId={current.id} onNavigate={navigateTo} />
       </aside>
 
       {/* Main content */}
-      <main className="pt-14 lg:pl-72">
+      <main className="book-main pt-14 lg:pl-72">
         <div className="max-w-4xl mx-auto px-6 py-10">
           <Component />
 
