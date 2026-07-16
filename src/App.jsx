@@ -1,23 +1,59 @@
 import { useState, useEffect, useCallback } from 'react'
 import Sidebar from './components/Sidebar.jsx'
 import MobileNav from './components/MobileNav.jsx'
-import { sections } from './content/index.js'
+import { sections as sections003 } from './content/index.js'
+import { sections as wipSections } from './content/wip/index.js'
+
+const EDITIONS = {
+  '0.0.3': sections003,
+  wip: wipSections,
+}
+
+function editionFromUrl() {
+  const requested = new URLSearchParams(window.location.search).get('edition')
+  return requested === 'wip' ? 'wip' : '0.0.3'
+}
+
+function pageFromHash(available) {
+  const hash = window.location.hash.replace('#', '')
+  const idx = available.findIndex((section) => section.id === hash)
+  return idx >= 0 ? idx : 0
+}
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [edition, setEdition] = useState(editionFromUrl)
+  const sections = EDITIONS[edition]
 
-  const getPageFromHash = () => {
-    const hash = window.location.hash.replace('#', '')
-    const idx = sections.findIndex((s) => s.id === hash)
-    return idx >= 0 ? idx : 0
-  }
-
-  const [page, setPage] = useState(getPageFromHash)
+  const [page, setPage] = useState(() => pageFromHash(sections))
 
   useEffect(() => {
-    const onHashChange = () => setPage(getPageFromHash())
+    const onHashChange = () => setPage(pageFromHash(sections))
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
+  }, [sections])
+
+  useEffect(() => {
+    const onPopState = () => {
+      const nextEdition = editionFromUrl()
+      const nextSections = EDITIONS[nextEdition]
+      setEdition(nextEdition)
+      setPage(pageFromHash(nextSections))
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
+
+  const changeEdition = useCallback((nextEdition) => {
+    const nextSections = EDITIONS[nextEdition]
+    const url = new URL(window.location.href)
+    if (nextEdition === 'wip') url.searchParams.set('edition', 'wip')
+    else url.searchParams.delete('edition')
+    url.hash = nextSections[0].id
+    window.history.pushState({}, '', url)
+    setEdition(nextEdition)
+    setPage(0)
+    window.scrollTo({ top: 0 })
   }, [])
 
   const navigateTo = useCallback((id) => {
@@ -27,15 +63,15 @@ export default function App() {
       setPage(idx)
       window.scrollTo({ top: 0 })
     }
-  }, [])
+  }, [sections])
 
   const goPrev = useCallback(() => {
     if (page > 0) navigateTo(sections[page - 1].id)
-  }, [page, navigateTo])
+  }, [page, navigateTo, sections])
 
   const goNext = useCallback(() => {
     if (page < sections.length - 1) navigateTo(sections[page + 1].id)
-  }, [page, navigateTo])
+  }, [page, navigateTo, sections])
 
   useEffect(() => {
     const onKey = (e) => {
@@ -65,7 +101,16 @@ export default function App() {
           <img src="/azora_logo.svg" alt="Azora" className="book-brand__logo" />
           <span className="book-brand__name">Azora</span>
           <span className="book-brand__product">Language Book</span>
-          <span className="version-tag">v0.0.3</span>
+          <span className="book-edition-select">
+            <select
+              value={edition}
+              onChange={(event) => changeEdition(event.target.value)}
+              aria-label="Choose book edition"
+            >
+              <option value="0.0.3">v0.0.3</option>
+              <option value="wip">wip</option>
+            </select>
+          </span>
         </div>
       </header>
 
@@ -74,6 +119,7 @@ export default function App() {
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
         sections={sections}
+        edition={edition}
         activeId={current.id}
         onNavigate={navigateTo}
       />
@@ -116,7 +162,7 @@ export default function App() {
 
           {/* Footer */}
           <footer className="mt-10 pt-6 border-t border-az-75 text-center text-sm text-az-neutral pb-10">
-            <p>Azora Language Book v0.0.3, DoubleGArts</p>
+            <p>Azora Language Book {edition === 'wip' ? 'WIP' : 'v0.0.3'}, DoubleGArts</p>
           </footer>
         </div>
       </main>

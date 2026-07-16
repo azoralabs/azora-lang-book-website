@@ -103,6 +103,44 @@ body {
   font-size: 0.65rem;
 }
 
+.book-edition-select {
+  position: relative;
+  display: inline-flex;
+}
+
+.book-edition-select::after {
+  position: absolute;
+  top: 50%;
+  right: 9px;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid #b9c3ca;
+  border-bottom: 1.5px solid #b9c3ca;
+  content: '';
+  pointer-events: none;
+  transform: translateY(-65%) rotate(45deg);
+}
+
+.book-edition-select select {
+  min-height: 28px;
+  padding: 3px 27px 3px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(20, 25, 30, 0.82);
+  color: #c8d0d6;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  cursor: pointer;
+}
+
+.book-edition-select select:focus {
+  border-color: #66d9ef;
+  box-shadow: 0 0 0 3px rgba(102, 217, 239, 0.11);
+}
+
 .book-sidebar {
   top: 68px !important;
   height: calc(100vh - 68px) !important;

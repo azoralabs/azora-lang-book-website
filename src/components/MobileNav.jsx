@@ -1,6 +1,6 @@
 import Sidebar from './Sidebar.jsx'
 
-export default function MobileNav({ open, onClose, sections, activeId, onNavigate }) {
+export default function MobileNav({ open, onClose, sections, activeId, onNavigate, edition }) {
   const handleNav = (id) => {
     onNavigate(id)
     onClose()
@@ -17,7 +17,7 @@ export default function MobileNav({ open, onClose, sections, activeId, onNavigat
         }`}
       >
         <div className="flex items-center justify-between px-4 py-3 border-b border-az-75">
-          <span className="font-bold text-az-primary">Azora Book</span>
+          <span className="font-bold text-az-primary">Azora Book {edition === 'wip' ? 'WIP' : 'v0.0.3'}</span>
           <button onClick={onClose} className="p-1 text-az-neutral hover:text-az-25 cursor-pointer">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
