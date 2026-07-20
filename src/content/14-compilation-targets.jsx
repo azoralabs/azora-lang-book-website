@@ -63,7 +63,7 @@ define i32 @add(i32 %a, i32 %b) {
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">14.5 Interpreter</h3>
       <p className="mt-2 text-az-35">
-        The IR can also be executed directly in memory by the interpreter — no code generation
+        The IR can also be executed directly in memory by the interpreter - no code generation
         required. This is how tests run, and it is the fastest path from source to a result during
         development.
       </p>

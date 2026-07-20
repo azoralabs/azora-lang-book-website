@@ -30,7 +30,7 @@ func main() {
 
       <p className="mt-2 text-az-35">
         Going the other way, the <strong>spread</strong> operator{' '}
-        <code className="text-az-primary">f(arr...)</code> splats an array's elements out as
+        <code className="text-az-primary">f(...arr)</code> splats an array's elements out as
         individual arguments.
       </p>
 
@@ -76,7 +76,7 @@ func main() {
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">35.4 Thread-local storage</h3>
       <p className="mt-2 text-az-35">
         <code className="text-az-primary">threadlocal</code> gives each coroutine its own independent
-        copy of a binding — handy for per-task counters or caches.
+        copy of a binding - handy for per-task counters or caches.
       </p>
       <CodeBlock>{`threadlocal fin answer = 42
 

@@ -6,7 +6,7 @@ export default function Generics() {
     <Section id="generics" title="20. Generics">
       <p className="mt-2 text-az-35">
         Generic functions and structs use type parameters. The compiler infers the type arguments
-        from how you call — no explicit annotation needed at the call site.
+        from how you call - no explicit annotation needed at the call site.
       </p>
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">20.1 Generic functions</h3>
@@ -24,9 +24,9 @@ func<T, U> first(a: T, b: U): T {
 }
 
 func main() {
-    println(identity(42))         // 42 — T inferred as Int
-    println(identity("hello"))    // hello — T inferred as String
-    println(first(10, "world"))   // 10 — T=Int, U=String
+    println(identity(42))         // 42 - T inferred as Int
+    println(identity("hello"))    // hello - T inferred as String
+    println(first(10, "world"))   // 10 - T=Int, U=String
 }`}</CodeBlock>
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">20.2 Generic structs</h3>
@@ -34,7 +34,7 @@ func main() {
         Generic <code className="text-az-primary">pack</code> declarations carry type parameters
         after the name. Fields can reference them. Construction and field access work as usual.
       </p>
-      <CodeBlock>{`pack Box<T> {
+      <CodeBlock>{`pack<T> Box {
     var value: T
 }
 

@@ -26,7 +26,7 @@ export default function CTCE() {
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">12.2 Conditional compilation</h3>
       <p className="mt-2 text-az-35">
         A top-level <code className="text-az-primary">deepinline if</code> on a compile-time
-        condition includes or excludes declarations. The untaken branch is removed entirely — it is
+        condition includes or excludes declarations. The untaken branch is removed entirely - it is
         not even type-checked.
       </p>
       <CodeBlock>{`inline fin DEBUG = true

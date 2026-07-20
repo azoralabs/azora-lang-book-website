@@ -34,7 +34,7 @@ func main() {
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">22.2 When to use them</h3>
       <p className="mt-2 text-az-35">
-        Infix calls are sugar — the dot-and-paren form always works too. They shine for math-like
+        Infix calls are sugar - the dot-and-paren form always works too. They shine for math-like
         helpers and builders where readability matters.
       </p>
     </Section>

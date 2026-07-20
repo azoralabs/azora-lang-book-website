@@ -24,34 +24,40 @@ export default function TimeChapter() {
         Durations normalize nanoseconds into <code>0..999,999,999</code>. Negative fractional values carry their
         sign in the seconds field, keeping equality and arithmetic canonical.
       </p>
-      <CodeBlock>{`use std.time
+      <CodeBlock>{`import std.time
 
-fin timeout = seconds(2) + milliseconds(250)
-fin retryDelay = milliseconds(500)
-fin remaining = timeout - retryDelay
+func main() {
+    fin timeout = std::seconds(2) + std::milliseconds(250)
+    fin retryDelay = std::milliseconds(500)
+    fin remaining = timeout - retryDelay
 
-println(remaining.inWholeMilliseconds) // 1750`}</CodeBlock>
+    std::println(remaining.inWholeMilliseconds) // 1750
+}`}</CodeBlock>
 
       <Subheading>Wall clock versus monotonic clock</Subheading>
-      <CodeBlock>{`fin started = monotonicNow()
-performWork()
-fin finished = monotonicNow()
-fin elapsed = try finished.elapsedSince(started)
-println(elapsed.inWholeMilliseconds)`}</CodeBlock>
+      <CodeBlock>{`func main() {
+    fin started = std::monotonicNow()
+    performWork()
+    fin finished = std::monotonicNow()
+    fin elapsed = try finished.elapsedSince(started)
+    std::println(elapsed.inWholeMilliseconds)
+}`}</CodeBlock>
       <Note tone="yellow">
         Measure elapsed time with <code>MonotonicInstant</code>. Wall clocks can jump because of synchronization,
         manual changes, or virtualization. Use <code>Instant</code> for timestamps that must be exchanged or stored.
       </Note>
 
       <Subheading>Validated civil values</Subheading>
-      <CodeBlock>{`fin date = try localDate(2026, 7, 16)
-fin time = try localTime(14, 30, 0, 125000000)
-fin offset = try utcOffsetOf(3)
-fin meeting = dateTime(date, time, offset)
+      <CodeBlock>{`func main() {
+    fin date = try std::localDate(2026, 7, 16)
+    fin time = try std::localTime(14, 30, 0, 125000000)
+    fin offset = try std::utcOffsetOf(3)
+    fin meeting = std::dateTime(date, time, offset)
 
-fin instant = toInstant(meeting)
-println(formatIsoDateTime(meeting))
-// 2026-07-16T14:30:00.125+03:00`}</CodeBlock>
+    fin instant = std::toInstant(meeting)
+    std::println(std::formatIsoDateTime(meeting))
+    // 2026-07-16T14:30:00.125+03:00
+}`}</CodeBlock>
       <p>
         <code>localDate</code>, <code>localTime</code>, and <code>utcOffset</code> validate at construction.
         February length uses Gregorian leap-year rules. Leap seconds are intentionally not represented; host
@@ -64,18 +70,22 @@ println(formatIsoDateTime(meeting))
         <code>Instant</code> for durable events and apply a named-zone database at presentation time when that
         facility becomes available. For protocols with a fixed offset, <code>DateTime</code> is unambiguous.
       </p>
-      <CodeBlock>{`fin utc = try utcOffset(0)
-fin bucharestSummer = try utcOffsetOf(3)
-fin timestamp = now()
+      <CodeBlock>{`func main() {
+    fin utc = try std::utcOffset(0)
+    fin bucharestSummer = try std::utcOffsetOf(3)
+    fin timestamp = std::now()
 
-println(formatIsoDateTime(atOffset(timestamp, utc)))
-println(formatIsoDateTime(atOffset(timestamp, bucharestSummer)))`}</CodeBlock>
+    std::println(std::formatIsoDateTime(std::atOffset(timestamp, utc)))
+    std::println(std::formatIsoDateTime(std::atOffset(timestamp, bucharestSummer)))
+}`}</CodeBlock>
 
       <Subheading>ISO-8601 parsing</Subheading>
-      <CodeBlock>{`fin event = try parseIsoDateTime("2026-07-16T14:30:00.125+03:00")
-fin stored = toInstant(event)
-fin canonical = formatIsoInstant(stored)
-// canonical is UTC and ends in Z`}</CodeBlock>
+      <CodeBlock>{`func main() {
+    fin event = try std::parseIsoDateTime("2026-07-16T14:30:00.125+03:00")
+    fin stored = std::toInstant(event)
+    fin canonical = std::formatIsoInstant(stored)
+    // canonical is UTC and ends in Z
+}`}</CodeBlock>
       <p>
         Parsing accepts four-digit years, one to nine fractional-second digits, <code>Z</code>, minute-precision
         offsets, and second-precision offsets. Invalid dates, leap days, times, offsets, and trailing text fail

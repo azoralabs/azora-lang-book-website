@@ -39,7 +39,7 @@ export default function Reactivity() {
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">34.3 Components with view</h3>
       <p className="mt-2 text-az-35">
-        A <code className="text-az-primary">view</code> declares a reactive component — lowered like a
+        A <code className="text-az-primary">view</code> declares a reactive component - lowered like a
         function and callable from code. Components compose with reactive state to describe a UI; a
         rendering backend turns the tree into pixels.
       </p>

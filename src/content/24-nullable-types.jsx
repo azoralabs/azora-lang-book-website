@@ -5,7 +5,7 @@ export default function NullableTypes() {
   return (
     <Section id="nullable-types" title="24. Nullable Types">
       <p className="mt-2 text-az-35">
-        A <code className="text-az-primary">?</code> after a type marks it as nullable — it may hold{' '}
+        A <code className="text-az-primary">?</code> after a type marks it as nullable - it may hold{' '}
         <code className="text-az-primary">null</code> or a value of the base type. The compiler
        tracks nullability so you must handle the absent case before using the value.
       </p>

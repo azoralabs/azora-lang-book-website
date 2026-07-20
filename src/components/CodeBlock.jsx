@@ -48,7 +48,7 @@ function azora(Prism) {
       alias: 'class-name',
     },
     'builtin-fn': {
-      pattern: /\b(?:println)\b/,
+      pattern: /\b(?:println|print)\b/,
       alias: 'builtin',
     },
     boolean: /\b(?:true|false)\b/,
@@ -56,7 +56,7 @@ function azora(Prism) {
       pattern: /\bnull\b/,
       alias: 'boolean',
     },
-    keyword: /\b(?:var|fin|let|func|return|package|module|use|if|else|inline|deepinline|noinline|zone|friend|test|assert|trace|for|while|loop|in|by|reverse|break|continue|when|guard|defer|rescue|as|is|null|pack|enum|slot|impl|spec|typealias|node|leaf|repl|virt|base|fail|flow|yield|task|await|launch|alloc|drop|unsafe|isolated|bridge|solo|inject|wrap|rem|effect|view|hook|prop|ctor|dtor|flip|flop|deco|oper|infx|expose|confine|protect|ref|out|mut|shared|weak|threadlocal|throw|try|catch)\b/,
+    keyword: /\b(?:var|fin|let|func|return|module|export|import|use|if|else|inline|deepinline|noinline|zone|friend|test|assert|trace|mixin|panic|for|while|loop|in|by|reverse|break|continue|when|guard|defer|rescue|as|is|it|null|pack|enum|slot|impl|spec|typealias|node|leaf|repl|virt|base|fail|flow|yield|task|await|launch|async|cancel|alloc|drop|deref|unsafe|isolated|bridge|solo|inject|wrap|mem|rem|ret|effect|view|hook|prop|ctor|dtor|flip|flop|deco|bind|oper|infx|expose|intern|confine|protect|shield|ref|out|mut|shared|weak|threadlocal|throw|try|catch)\b/,
     'type-name': {
       pattern: /\b[A-Z][a-zA-Z0-9_]*\b/,
       alias: 'class-name',

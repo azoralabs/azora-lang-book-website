@@ -47,7 +47,7 @@ func main() {
     println(c1.inc())          // 1
     println(c1.inc())          // 2
     var c2 = inject Counter
-    println(c2.inc())          // 3   — same instance
+    println(c2.inc())          // 3   - same instance
 }`}</CodeBlock>
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">32.3 Fields, and wiring with wrap</h3>

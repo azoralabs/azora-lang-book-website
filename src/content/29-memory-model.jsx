@@ -53,14 +53,14 @@ export default function MemoryModel() {
     var original = [1, 2, 3]
     var copy = isolated(original)
     copy[0] = 99
-    println(original[0])   // 1   — original is untouched
+    println(original[0])   // 1   - original is untouched
     drop original
 }`}</CodeBlock>
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">29.4 Scoped arenas</h3>
       <p className="mt-2 text-az-35">
         <code className="text-az-primary">zone alloc {`{ }`}</code> is a scoped allocation arena:
-        pointers allocated inside are tracked and freed automatically when the zone exits — a handy
+        pointers allocated inside are tracked and freed automatically when the zone exits - a handy
         way to batch short-lived allocations.
       </p>
       <CodeBlock>{`func main() {

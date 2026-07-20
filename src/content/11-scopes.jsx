@@ -19,7 +19,7 @@ export default function Scopes() {
     var x = 1
     zone {
         var y = 2
-        println(x + y)     // 3 — x is visible from the outer scope
+        println(x + y)     // 3 - x is visible from the outer scope
     }
     // y is not visible here
     println(x)             // 1

@@ -7,7 +7,7 @@ export default function ErrorSets() {
       <p className="mt-2 text-az-35">
         Beyond <code className="text-az-primary">throw</code>/<code className="text-az-primary">try</code>/<code className="text-az-primary">catch</code>,
         Azora lets you declare a named <strong>error set</strong> and mark a function's return type
-        as <strong>failable</strong> — it returns a value <em>or</em> an error from that set. This
+        as <strong>failable</strong> - it returns a value <em>or</em> an error from that set. This
         makes the failure modes part of the signature.
       </p>
 
@@ -50,7 +50,7 @@ func main() {
       <p className="mt-2 text-az-35">
         <code className="text-az-primary">rescue {`{ }`}</code> catches an error and swallows it, so
         the function continues. <code className="text-az-primary">fail defer {`{ }`}</code> schedules
-        cleanup that runs <em>only</em> when the function exits through an error — the error analog
+        cleanup that runs <em>only</em> when the function exits through an error - the error analog
         of <code className="text-az-primary">defer</code>.
       </p>
     </Section>

@@ -48,7 +48,7 @@ export default function Variables() {
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">3.3 Top-level bindings</h3>
       <p className="mt-2 text-az-35">
         At the top level of a file, only deeply-immutable <code className="text-az-primary">fin</code> bindings are
-        allowed — mutable globals are rejected as not thread-safe. Mutable state lives inside functions.
+        allowed - mutable globals are rejected as not thread-safe. Mutable state lives inside functions.
       </p>
       <CodeBlock>{`fin MAX_SIZE = 1024        // OK: immutable global
 fin APP_NAME = "Azora"     // OK
@@ -79,9 +79,9 @@ func main() {
 function Table() {
   const headers = ['Keyword', 'Mutability']
   const rows = [
-    [<code key="1" className="text-az-primary">var</code>, 'Mutable — can be reassigned'],
-    [<code key="1" className="text-az-primary">let</code>, 'Immutable — read-only view, cannot be reassigned'],
-    [<code key="1" className="text-az-primary">fin</code>, 'Deeply immutable — cannot be reassigned'],
+    [<code key="1" className="text-az-primary">var</code>, 'Mutable - can be reassigned'],
+    [<code key="1" className="text-az-primary">let</code>, 'Immutable - read-only view, cannot be reassigned'],
+    [<code key="1" className="text-az-primary">fin</code>, 'Deeply immutable - cannot be reassigned'],
   ]
   return (
     <div className="my-4 overflow-x-auto rounded-lg border border-az-75">

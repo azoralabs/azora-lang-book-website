@@ -5,7 +5,7 @@ export default function Traits() {
   return (
     <Section id="traits" title="21. Traits (spec)">
       <p className="mt-2 text-az-35">
-        A <code className="text-az-primary">spec</code> declares a trait — a named set of method
+        A <code className="text-az-primary">spec</code> declares a trait - a named set of method
         signatures. A type implements a spec with{' '}
         <code className="text-az-primary">impl SpecName for TypeName</code>. The compiler checks
         that every spec method is provided.

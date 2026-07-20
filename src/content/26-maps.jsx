@@ -5,7 +5,7 @@ export default function Maps() {
   return (
     <Section id="maps" title="26. Maps">
       <p className="mt-2 text-az-35">
-        A <strong>map</strong> is a keyed collection — Azora's spelling is{' '}
+        A <strong>map</strong> is a keyed collection - Azora's spelling is{' '}
         <code className="text-az-primary">[&quot;k&quot;: v]</code>. The literal syntax mirrors the
         array literal, but each entry is a <code className="text-az-primary">key: value</code> pair.
         Keys and values can be any type.
@@ -30,7 +30,7 @@ export default function Maps() {
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">26.3 Any key type</h3>
       <p className="mt-2 text-az-35">
-        Keys are not limited to strings — integers work too, which makes a map a natural sparse
+        Keys are not limited to strings - integers work too, which makes a map a natural sparse
         table.
       </p>
       <CodeBlock>{`func main() {

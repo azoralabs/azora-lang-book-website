@@ -31,8 +31,8 @@ var EXEC  = 0b0100
 
 func main() {
     var perms = READ | WRITE
-    println(perms & READ != 0)   // true — has READ
-    println(perms & EXEC != 0)   // false — no EXEC
+    println(perms & READ != 0)   // true - has READ
+    println(perms & EXEC != 0)   // false - no EXEC
 }`}</CodeBlock>
     </Section>
   )

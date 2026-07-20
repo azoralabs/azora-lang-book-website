@@ -9,7 +9,7 @@ export default function TaggedUnions() {
         several named <em>variants</em>, each optionally carrying a payload. Where an{' '}
         <code className="text-az-primary">enum</code> lists plain names, a{' '}
         <code className="text-az-primary">slot</code> lets a variant carry data. They shine for
-        modeling choices — option types, results, AST nodes, events.
+        modeling choices - option types, results, AST nodes, events.
       </p>
 
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">27.1 Declaring a slot</h3>
@@ -33,7 +33,7 @@ export default function TaggedUnions() {
       <h3 className="text-lg font-semibold mt-6 mb-2 text-az-25">27.3 Matching with destructuring</h3>
       <p className="mt-2 text-az-35">
         <code className="text-az-primary">when</code> matches a slot variant and binds its payload to
-        names. The compiler checks exhaustiveness — you either cover every variant or supply an{' '}
+        names. The compiler checks exhaustiveness - you either cover every variant or supply an{' '}
         <code className="text-az-primary">else</code>.
       </p>
       <CodeBlock>{`slot Option {
