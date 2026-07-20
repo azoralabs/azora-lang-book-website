@@ -1,73 +1,95 @@
 import { ApiTable, CodeBlock, Lead, Note, Section, Subheading } from './Shared.jsx'
 
+/**
+ * "Containers" (chapter 2.14) - one chapter per family.
+ *
+ * Each collection family has:
+ *   - a read-only spec (List / Set / Map)
+ *   - a mutable spec    (MutableList / MutableSet / MutableMap)
+ *   - one or more concrete packs that implement them (ArrayList, LinkedHashSet,
+ *     HashMap / LinkedHashMap / TreeMap)
+ * The concrete pack is what you construct; the spec is the type you pass around.
+ * Deque, Queue, Stack, and Tuple are single-pack families.
+ */
+
 export function ContainersOverview() {
   return (
-    <Section id="wip-containers" title="2.4 Containers">
+    <Section id="wip-containers" title="2.14 Containers">
       <Lead>
-        Containers live in individual <code>std.container</code> modules. The language does not own
-        <code>Array</code>, <code>Map</code>, <code>Set</code>, <code>List</code>, or tuple classes; importing a
-        module makes its normal library declarations available.
+        Containers live in individual <code>std.container</code> modules. Each collection family is a pair of
+        specs — a read-only interface and a mutable one — backed by a concrete pack you construct. The language
+        owns no collection types; importing a module makes its ordinary library declarations available.
       </Lead>
       <ApiTable rows={[
-        ['List<T>', 'Ordered read-oriented values; includes EmptyList and SingletonList specializations.'],
-        ['MutableList<T>', 'Growable ordered values with indexed mutation.'],
-        ['Map<K, V>', 'Key/value lookup with unique keys.'],
-        ['MutableMap<K, V>', 'Explicitly mutable key/value storage.'],
-        ['Set<T>', 'Unique values and set algebra.'],
-        ['MutableSet<T>', 'Explicitly mutable unique-value storage.'],
-        ['Deque<T>', 'Double-ended queue with amortized O(1) operations at either end.'],
-        ['Queue<T>', 'FIFO processing: enqueue at the back, dequeue from the front.'],
-        ['Stack<T>', 'LIFO processing: push, peek, and pop at the top.'],
+        ['List / MutableList / ArrayList', 'Ordered, indexable values. The concrete pack is ArrayList.'],
+        ['Set / MutableSet / LinkedHashSet', 'Unique values with insertion-ordered storage and set algebra.'],
+        ['Map / MutableMap / HashMap·LinkedHashMap·TreeMap', 'Key/value lookup. Three concrete packs, one sorted.'],
+        ['Deque', 'Double-ended queue with amortized O(1) at either end.'],
+        ['Queue', 'FIFO processing: enqueue at the back, dequeue from the front.'],
+        ['Stack', 'LIFO processing: push, peek, and pop at the top.'],
         ['Tuple<...T>', 'Fixed-size heterogeneous values, created with tupleOf.'],
       ]} />
       <Note>
-        Prefer the narrow interface that communicates intent. A queue says “process in arrival order” more clearly
-        than a mutable list. A set says “duplicates are impossible” more clearly than repeated contains checks.
+        Prefer the narrow interface that communicates intent. A <code>List</code> parameter promises no mutation;
+        a <code>MutableList</code> parameter advertises it. A queue says “process in arrival order” more clearly
+        than a mutable list.
       </Note>
-      <CodeBlock>{`import std.container.{list, mutable_list, set, map}
+      <CodeBlock>{`import std.container.{list, set, map}
+import std.io
 
 func main() {
     fin names = std::listOf("Ana", "Mara")
     var pending = std::mutableListOf("compile", "test")
     fin roles = std::setOf("reader", "writer")
-    fin metadata = std::emptyMap<String, String>()
+    fin metadata = std::mapOf(std::mapEntry("host", "azora.dev"))
+
+    pending.add("link")
+    std::println(names.size)
+    std::println(roles.size)
+    std::println(metadata.size)
+    std::println(pending.size)
 }`}</CodeBlock>
     </Section>
   )
 }
 
-export function ListChapter() {
+/* ------------------------------------------------------------------ */
+/* 2.14.1 List family                                                */
+/* ------------------------------------------------------------------ */
+
+export function ListFamily() {
   return (
-    <Section id="wip-list" title="2.4.1 List, EmptyList, and SingletonList">
+    <Section id="wip-list" title="2.14.1 List family (List, MutableList, ArrayList)">
       <Lead>
-        <code>List&lt;T&gt;</code> is an ordered generic collection. Use <code>listOf</code> for normal construction and
-        <code>std::emptyList</code> when the element type must be explicit. Indexes are zero-based and bounds are checked.
+        <code>List&lt;T&gt;</code> is the read-only ordered collection; <code>MutableList&lt;T&gt;</code> adds
+        indexed mutation; <code>ArrayList&lt;T&gt;</code> is the concrete dynamic-array pack that implements both.
+        Construct with the factories; pass the spec around.
       </Lead>
+
+      <Subheading>Construction and access</Subheading>
       <CodeBlock>{`module app.catalog
 
 import std.container.list
+import std.io
 
 func main() {
     fin languages = std::listOf("Azora", "Kotlin", "Rust")
-    std::println(languages.size)       // 3
-    std::println(languages[0])         // Azora
-    std::println(languages.first)      // Azora
-    std::println(languages.last)       // Rust
-    std::println(languages.isNotEmpty) // true
+    std::println(languages.size)        // 3
+    std::println(languages.get(0))      // Azora
+    std::println(languages.first)       // Azora
+    std::println(languages.last)        // Rust
+    std::println(languages.isNotEmpty)  // true
 }`}</CodeBlock>
-      <Subheading>Empty and singleton specialization</Subheading>
-      <p>
-        <code>EmptyList&lt;T&gt;</code> and <code>SingletonList&lt;T&gt;</code> avoid allocating a backing buffer for zero or
-        one element. Their <code>size</code>, <code>isEmpty</code>, and <code>isNotEmpty</code> properties are constant.
-        Accessing an empty list or any singleton index other than zero fails a bounds assertion.
-      </p>
-      <CodeBlock>{`func main() {
-    fin none = std::emptyList<String>()
-    fin one = std::listOf("only")
+      <ApiTable rows={[
+        ['std::listOf(...e)', 'A List<T> view over a fresh ArrayList.'],
+        ['std::emptyList<T>()', 'An empty List<T> (type-annotated form).'],
+        ['std::mutableListOf(...e)', 'A MutableList<T> view.'],
+        ['std::arrayListOf(...e)', 'The concrete ArrayList<T>.'],
+        ['get(index) / list[index]', 'Zero-based, bounds-checked access.'],
+        ['first / last', 'The ends; assert when empty.'],
+        ['size / isEmpty / isNotEmpty', 'Counts and checks.'],
+      ]} />
 
-    std::println(none.isEmpty)
-    std::println(one[0])
-}`}</CodeBlock>
       <Subheading>Queries and transformations</Subheading>
       <ApiTable rows={[
         ['contains(value)', 'Tests equality against each element; O(n).'],
@@ -82,42 +104,29 @@ func main() {
       ]} />
       <CodeBlock>{`func main() {
     fin scores = std::listOf(18, 7, 25, 10)
-    fin passing = scores.filter { score -> score >= 10 }
-
-    std::println(passing.count { score -> score >= 18 })
-    std::println(scores.any { score -> score == 25 })
+    fin passing = scores.filter { it >= 10 }
+    std::println(passing.size)             // 3
+    std::println(scores.any { it == 25 })  // true
 }`}</CodeBlock>
-    </Section>
-  )
-}
 
-export function MutableListChapter() {
-  return (
-    <Section id="wip-mutable-list" title="2.4.2 MutableList">
-      <Lead>
-        <code>MutableList&lt;T&gt;</code> makes indexed mutation and growth explicit in the type. It owns a resizable
-        buffer, grows geometrically, and retains insertion order.
-      </Lead>
-      <CodeBlock>{`import std.container.mutable_list
-
-func main() {
-    var tasks = std::mutableListOf("parse", "compile")
-    tasks.add("link")
-    tasks.insert(1, "validate")
-    tasks[0] = "lex"
-
-    fin completed = tasks.removeAt(0)
-    std::println(completed)
-    std::println(tasks.toString)
-}`}</CodeBlock>
+      <Subheading>Mutation (MutableList)</Subheading>
       <ApiTable rows={[
         ['add(value)', 'Appends at the end; amortized O(1).'],
         ['insert(index, value)', 'Shifts following values right; O(n).'],
-        ['set / list[index] = value', 'Replaces a checked existing element; O(1).'],
+        ['set(index, value) / list[index] = value', 'Replaces a checked existing element; O(1).'],
         ['removeAt(index)', 'Removes and returns a value, shifting the tail; O(n).'],
         ['removeFirst / removeLast', 'Convenient checked end removal.'],
         ['clear()', 'Releases the old buffer and resets default capacity.'],
       ]} />
+      <CodeBlock>{`func main() {
+    var tasks = std::mutableListOf("parse", "compile")
+    tasks.add("link")
+    tasks.insert(1, "validate")
+    tasks[0] = "lex"
+    fin completed = tasks.removeAt(0)
+    std::println(completed)
+    std::println(tasks.size)
+}`}</CodeBlock>
       <Note tone="yellow">
         Do not mutate a list while one of its <code>forEach</code>, <code>map</code>, or <code>filter</code>
         callbacks is traversing that same list. Make the mutation before/after traversal or build a second list.
@@ -126,147 +135,166 @@ func main() {
   )
 }
 
-export function MapChapter() {
+/* ------------------------------------------------------------------ */
+/* 2.14.2 Set family                                                 */
+/* ------------------------------------------------------------------ */
+
+export function SetFamily() {
   return (
-    <Section id="wip-map" title="2.4.3 Map">
+    <Section id="wip-set" title="2.14.2 Set family (Set, MutableSet, LinkedHashSet)">
       <Lead>
-        <code>Map&lt;K, V&gt;</code> associates unique keys with values. A repeated key replaces its previous value.
-        Lookups are checked: use <code>getOrDefault</code> when absence is expected.
+        <code>Set&lt;T&gt;</code> stores unique values; <code>MutableSet&lt;T&gt;</code> adds live membership
+        mutation; <code>LinkedHashSet&lt;T&gt;</code> is the concrete pack, keeping insertion order so indexed
+        access is well-defined. Element equality uses <code>oper==</code>.
       </Lead>
-      <CodeBlock>{`import std.container.map
+
+      <Subheading>Construction and membership</Subheading>
+      <CodeBlock>{`import std.container.set
+import std.io
 
 func main() {
-    var ports = std::emptyMap<String, Int>()
-    ports.put("http", 80)
-    ports.put("https", 443)
-
-    std::println(ports["https"])
-    std::println(ports.getOrDefault("ssh", 22))
-    std::println(ports.containsKey("http"))
+    fin requested = std::setOf("read", "write", "read")
+    std::println(requested.size)        // 2  (duplicates dropped)
+    std::println(requested.contains("read"))
+    std::println(requested.get(0))      // "read" (insertion order)
 }`}</CodeBlock>
       <ApiTable rows={[
-        ['put(key, value)', 'Inserts or replaces an association.'],
-        ['get(key) / map[key]', 'Returns the value or fails when the key is absent.'],
-        ['getOrDefault(key, fallback)', 'Returns a fallback without modifying the map.'],
-        ['remove(key)', 'Removes and returns the associated value.'],
-        ['containsKey / containsValue', 'Linear membership queries in the current implementation.'],
-        ['forEach(action)', 'Visits key/value pairs in storage order.'],
-        ['keys() / values()', 'Returns snapshots of keys or values.'],
+        ['std::setOf(...e)', 'A Set<T> view over a fresh LinkedHashSet.'],
+        ['std::emptySet<T>()', 'An empty Set<T>.'],
+        ['std::mutableSetOf(...e)', 'A MutableSet<T> view.'],
+        ['std::linkedHashSetOf(...e)', 'The concrete LinkedHashSet<T>.'],
+        ['contains(value)', 'Membership query.'],
+        ['get(index)', 'Insertion-order positional access (low-level).'],
       ]} />
+
+      <Subheading>Set algebra</Subheading>
+      <ApiTable rows={[
+        ['union(other)', 'Values present in either set.'],
+        ['intersect(other)', 'Values present in both sets.'],
+        ['difference(other)', 'Values present only in the receiver.'],
+        ['filter(predicate)', 'Builds a new set while preserving uniqueness.'],
+      ]} />
+      <CodeBlock>{`func main() {
+    fin requested = std::setOf("read", "write", "admin")
+    fin allowed = std::setOf("read", "audit")
+
+    fin effective = requested.intersect(allowed)
+    fin missing = requested.difference(allowed)
+    std::println(effective.contains("read"))   // true
+    std::println(missing.contains("write"))    // true
+}`}</CodeBlock>
+
+      <Subheading>Mutable membership</Subheading>
+      <ApiTable rows={[
+        ['add(value)', 'Adds only when absent and returns whether the set changed.'],
+        ['remove(value)', 'Removes a value and returns whether it existed.'],
+        ['clear()', 'Empties the receiver.'],
+      ]} />
+      <CodeBlock>{`func main() {
+    var online = std::mutableSetOf("ana", "mara")
+    if online.add("noah") { std::println("presence changed") }
+    online.remove("ana")
+    std::println(online.contains("mara"))
+}`}</CodeBlock>
       <Note>
-        The WIP implementation uses parallel owned buffers. It does not yet promise hash-map complexity, so do
-        not rely on constant-time lookup in performance contracts. The API can later change storage strategy
-        without changing call sites.
+        Positional access exposes storage order for low-level iteration, not semantic ordering. Do not persist or
+        compare sets by index. Use membership and set algebra.
       </Note>
     </Section>
   )
 }
 
-export function MutableMapChapter() {
-  return (
-    <Section id="wip-mutable-map" title="2.4.4 MutableMap">
-      <Lead>
-        Use <code>MutableMap&lt;K, V&gt;</code> when mutation is part of the public contract: caches, counters, symbol
-        tables, and incremental state. The mutable type prevents callers from mistaking live state for a snapshot.
-      </Lead>
-      <CodeBlock>{`import std.container.mutable_map
+/* ------------------------------------------------------------------ */
+/* 2.14.3 Map family                                                 */
+/* ------------------------------------------------------------------ */
 
-func frequencies(words: ref List<String>): MutableMap<String, Int> {
+export function MapFamily() {
+  return (
+    <Section id="wip-map" title="2.14.3 Map family (Map, MutableMap, HashMap/LinkedHashMap/TreeMap)">
+      <Lead>
+        <code>Map&lt;K, V&gt;</code> associates unique keys with values; <code>MutableMap&lt;K, V&gt;</code> adds
+        mutation. Three concrete packs implement them: <code>HashMap</code> (fastest, unspecified order, needs
+        <code> oper#</code> + <code>oper==</code> on <code>K</code>), <code>LinkedHashMap</code> (insertion-ordered,
+        the default), and <code>TreeMap</code> (sorted, needs <code>oper&lt;</code> on <code>K</code>, also a
+        <code>SortedMap</code>).
+      </Lead>
+
+      <Subheading>Construction and lookup</Subheading>
+      <CodeBlock>{`import std.container.map
+import std.io
+
+func main() {
+    var ports = std::mutableMapOf(std::mapEntry("http", 80), std::mapEntry("https", 443))
+    ports.put("ssh", 22)
+    std::println(ports["https"])                 // 443
+    std::println(ports.getOrDefault("dns", 53))  // 53
+    std::println(ports.containsKey("http"))      // true
+}`}</CodeBlock>
+      <ApiTable rows={[
+        ['std::mapOf(...entries)', 'A Map<K,V> view over a LinkedHashMap (Kotlin default).'],
+        ['std::mutableMapOf(...entries)', 'A MutableMap<K,V> view over a LinkedHashMap.'],
+        ['std::mapEntry(k, v)', 'Builds one MapEntry<K,V>.'],
+        ['std::hashMapOf / linkedHashMapOf / treeMapOf', 'The three concrete packs.'],
+        ['get(key) / map[key]', 'Returns the value or null when absent.'],
+        ['getOrDefault(key, fallback)', 'Returns a fallback without modifying the map.'],
+        ['containsKey / containsValue', 'Membership queries.'],
+        ['keys() / values() / entries()', 'Iteration-order snapshots.'],
+      ]} />
+
+      <Subheading>Mutation (MutableMap)</Subheading>
+      <ApiTable rows={[
+        ['put(key, value)', 'Inserts or replaces an association; returns the previous value or null.'],
+        ['putAll(other)', 'Copies entries from another map.'],
+        ['remove(key)', 'Removes and returns the associated value or null.'],
+        ['getOrPut(key, default())', 'Returns the existing value or inserts the default.'],
+        ['clear()', 'Releases entries while keeping the map reusable.'],
+      ]} />
+      <CodeBlock>{`func frequencies(words: ref List<String>): MutableMap<String, Int> {
     var counts = std::mutableMapOf<String, Int>()
     words.forEach { word ->
         counts[word] = counts.getOrDefault(word, 0) + 1
     }
     return counts
 }`}</CodeBlock>
+
+      <Subheading>Sorted maps (TreeMap)</Subheading>
       <p>
-        Index assignment inserts when a key is absent and replaces when it exists. <code>remove</code> is checked;
-        use <code>containsKey</code> first when removal is optional. <code>clear</code> releases entries while keeping
-        the map value reusable.
+        <code>TreeMap&lt;K, V&gt;</code> keeps keys in ascending <code>oper&lt;</code> order and is also a
+        <code> SortedMap</code>, so it exposes navigation and range views.
       </p>
-      <CodeBlock>{`var sessions = std::mutableMapOf<String, String>()
-sessions["a1"] = "Ana"
-sessions["m2"] = "Mara"
-
-if sessions.containsKey("a1") {
-    fin removed = sessions.remove("a1")
-    std::println(removed)
-}`}</CodeBlock>
-    </Section>
-  )
-}
-
-export function SetChapter() {
-  return (
-    <Section id="wip-set" title="2.4.5 Set">
-      <Lead>
-        <code>Set&lt;T&gt;</code> stores unique values. Construction and assignment enforce uniqueness: adding an
-        existing value is a no-op, and replacing by index is skipped when it would create a duplicate.
-      </Lead>
-      <CodeBlock>{`import std.container.set
-
-func main() {
-    fin requested = std::setOf("read", "write", "read")
-    fin allowed = std::setOf("read", "audit")
-
-    fin effective = requested.intersect(allowed)
-    fin missing = requested.difference(allowed)
-
-    std::println(effective.contains("read"))
-    std::println(missing.contains("write"))
-}`}</CodeBlock>
       <ApiTable rows={[
-        ['add(value)', 'Adds only when absent and returns whether the set changed.'],
-        ['remove(value)', 'Removes a value and returns whether it existed.'],
-        ['contains(value)', 'Membership query.'],
-        ['union(other)', 'Values present in either set.'],
-        ['intersect(other)', 'Values present in both sets.'],
-        ['difference(other)', 'Values present only in the receiver.'],
-        ['filter(predicate)', 'Builds a new set while preserving uniqueness.'],
+        ['firstKey() / lastKey()', 'The extremes, or null when empty.'],
+        ['lowerKey / floorKey / ceilingKey / higherKey', 'Neighbour lookup around a key.'],
+        ['headMap(to) / tailMap(from) / subMap(from, to)', 'Ascending read-only range views.'],
+        ['pollFirstEntry / pollLastEntry', 'Remove and return a boundary entry.'],
       ]} />
+      <CodeBlock>{`func main() {
+    fin ages = std::treeMapOf(std::mapEntry("Ana", 30), std::mapEntry("Mara", 25))
+    std::println(ages.firstKey())   // Ana  (sorted by key)
+    std::println(ages.lastKey())    // Mara
+}`}</CodeBlock>
       <Note>
-        Set indexes expose storage order for low-level iteration, not semantic ordering. Do not persist or compare
-        sets by index. Use membership and set algebra.
+        The three concrete packs share one <code>Map</code>/<code>MutableMap</code> surface; switch packs by
+        changing the factory. <code>HashMap</code> needs <code>oper#</code> and <code>oper==</code> on the key
+        type; <code>TreeMap</code> needs <code>oper&lt;</code>.
       </Note>
     </Section>
   )
 }
 
-export function MutableSetChapter() {
-  return (
-    <Section id="wip-mutable-set" title="2.4.6 MutableSet">
-      <Lead>
-        <code>MutableSet&lt;T&gt;</code> is the explicit mutable counterpart for live membership state. Its mutating
-        methods report whether the operation changed the set, which is useful for invalidation and event emission.
-      </Lead>
-      <CodeBlock>{`import std.container.mutable_set
-
-func main() {
-    var online = std::mutableSetOf("ana", "mara")
-
-    if online.add("noah") {
-        std::println("presence changed")
-    }
-
-    online.remove("ana")
-    std::println(online.contains("mara"))
-}`}</CodeBlock>
-      <p>
-        <code>union</code>, <code>intersect</code>, and <code>difference</code> return new mutable sets; they do not
-        mutate either operand. <code>clear</code> empties the receiver. As with <code>Set</code>, positional access
-        is an implementation-order facility rather than sorted order.
-      </p>
-    </Section>
-  )
-}
+/* ------------------------------------------------------------------ */
+/* 2.14.4 Deque                                                      */
+/* ------------------------------------------------------------------ */
 
 export function DequeChapter() {
   return (
-    <Section id="wip-deque" title="2.4.7 Deque">
+    <Section id="wip-deque" title="2.14.4 Deque">
       <Lead>
         <code>Deque&lt;T&gt;</code> is a circular-buffer double-ended queue. Push and pop at either end are O(1)
         amortized, making it the right default for work queues, sliding windows, and breadth/depth hybrid algorithms.
       </Lead>
       <CodeBlock>{`import std.container.deque
+import std.io
 
 func main() {
     var work = Deque<String>()
@@ -293,14 +321,19 @@ func main() {
   )
 }
 
+/* ------------------------------------------------------------------ */
+/* 2.14.5 Queue                                                      */
+/* ------------------------------------------------------------------ */
+
 export function QueueChapter() {
   return (
-    <Section id="wip-queue" title="2.4.8 Queue">
+    <Section id="wip-queue" title="2.14.5 Queue">
       <Lead>
-        <code>Queue&lt;T&gt;</code> communicates first-in-first-out processing. Enqueue adds at the back; dequeue removes
-        the oldest value from the front.
+        <code>Queue&lt;T&gt;</code> communicates first-in-first-out processing. Enqueue adds at the back; dequeue
+        removes the oldest value from the front.
       </Lead>
       <CodeBlock>{`import std.container.queue
+import std.io
 
 func main() {
     var messages = Queue<String>()
@@ -312,22 +345,27 @@ func main() {
     }
 }`}</CodeBlock>
       <p>
-        <code>peek</code> returns the next value without removing it. <code>dequeue</code> and <code>peek</code> assert
-        that the queue is non-empty. The current implementation shifts remaining elements during dequeue, so a
-        <code>Deque</code> is preferable for high-throughput FIFO workloads until Queue adopts circular storage.
+        <code>peek</code> returns the next value without removing it. <code>dequeue</code> and <code>peek</code>
+        assert that the queue is non-empty. The current implementation shifts remaining elements during dequeue, so
+        a <code>Deque</code> is preferable for high-throughput FIFO workloads until Queue adopts circular storage.
       </p>
     </Section>
   )
 }
 
+/* ------------------------------------------------------------------ */
+/* 2.14.6 Stack                                                      */
+/* ------------------------------------------------------------------ */
+
 export function StackChapter() {
   return (
-    <Section id="wip-stack" title="2.4.9 Stack">
+    <Section id="wip-stack" title="2.14.6 Stack">
       <Lead>
-        <code>Stack&lt;T&gt;</code> is last-in-first-out storage. It is useful for parsers, undo history, tree traversal,
-        and any algorithm that must resume the most recently suspended work first.
+        <code>Stack&lt;T&gt;</code> is last-in-first-out storage. It is useful for parsers, undo history, tree
+        traversal, and any algorithm that must resume the most recently suspended work first.
       </Lead>
       <CodeBlock>{`import std.container.stack
+import std.io
 
 func main() {
     var undo = Stack<String>()
@@ -349,14 +387,19 @@ func main() {
   )
 }
 
+/* ------------------------------------------------------------------ */
+/* 2.14.7 Tuple                                                      */
+/* ------------------------------------------------------------------ */
+
 export function TupleChapter() {
   return (
-    <Section id="wip-tuple" title="2.4.10 Tuple">
+    <Section id="wip-tuple" title="2.14.7 Tuple">
       <Lead>
-        <code>Tuple&lt;T...&gt;</code> is a fixed-size heterogeneous container generated by the stdlib variadic pack.
-        Tuples require at least two elements and expose zero-based positional fields.
+        <code>Tuple&lt;T...&gt;</code> is a fixed-size heterogeneous container generated by the stdlib variadic
+        pack. Tuples require at least two elements and expose zero-based positional fields.
       </Lead>
       <CodeBlock>{`import std.container.tuple
+import std.io
 
 func describe(): Tuple<String, Int, Bool> {
     return std::tupleOf("Azora", 3, true)
