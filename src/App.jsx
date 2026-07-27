@@ -1,17 +1,18 @@
 import { useState, useEffect, useCallback } from 'react'
 import Sidebar from './components/Sidebar.jsx'
 import MobileNav from './components/MobileNav.jsx'
-import { sections as sections003 } from './content/index.js'
-import { sections as wipSections } from './content/wip/index.js'
+import { sections as sections004 } from './content/0.0.4/index.js'
+import { sections as sections005Dev } from './content/0.0.5-dev/index.js'
 
+const DEFAULT_EDITION = '0.0.4'
 const EDITIONS = {
-  '0.0.3': sections003,
-  wip: wipSections,
+  '0.0.4': sections004,
+  '0.0.5-dev': sections005Dev,
 }
 
 function editionFromUrl() {
   const requested = new URLSearchParams(window.location.search).get('edition')
-  return requested === 'wip' ? 'wip' : '0.0.3'
+  return Object.hasOwn(EDITIONS, requested) ? requested : DEFAULT_EDITION
 }
 
 function pageFromHash(available) {
@@ -47,7 +48,7 @@ export default function App() {
   const changeEdition = useCallback((nextEdition) => {
     const nextSections = EDITIONS[nextEdition]
     const url = new URL(window.location.href)
-    if (nextEdition === 'wip') url.searchParams.set('edition', 'wip')
+    if (nextEdition !== DEFAULT_EDITION) url.searchParams.set('edition', nextEdition)
     else url.searchParams.delete('edition')
     url.hash = nextSections[0].id
     window.history.pushState({}, '', url)
@@ -107,8 +108,8 @@ export default function App() {
               onChange={(event) => changeEdition(event.target.value)}
               aria-label="Choose book edition"
             >
-              <option value="0.0.3">v0.0.3</option>
-              <option value="wip">wip</option>
+              <option value="0.0.4">v0.0.4</option>
+              <option value="0.0.5-dev">v0.0.5-dev</option>
             </select>
           </span>
         </div>
@@ -162,7 +163,7 @@ export default function App() {
 
           {/* Footer */}
           <footer className="mt-10 pt-6 border-t border-az-75 text-center text-sm text-az-neutral pb-10">
-            <p>Azora Language Book {edition === 'wip' ? 'WIP' : 'v0.0.3'}, DoubleGArts</p>
+            <p>Azora Language Book v{edition}, DoubleGArts</p>
           </footer>
         </div>
       </main>

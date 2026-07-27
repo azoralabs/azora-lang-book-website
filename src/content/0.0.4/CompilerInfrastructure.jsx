@@ -8,7 +8,7 @@ import { ApiTable, CodeBlock, Lead, Note, Section, Subheading } from './Shared.j
 
 export function CompilerInfrastructure() {
   return (
-    <Section id="wip-compiler" title="3. Compiler infrastructure">
+    <Section id="v004-compiler" title="3. Compiler infrastructure">
       <Lead>
         The Azora compiler is a four-phase pipeline: <b>Frontend</b> (lex, parse, validate) →
         <b> Semantic analysis</b> (multi-pass, with compile-time evaluation) → <b>IR generation</b> (typed lowering) →
@@ -38,7 +38,7 @@ export function CompilerInfrastructure() {
 
 export function CompilerOverviewChapter() {
   return (
-    <Section id="wip-compiler-overview" title="3.1 Overview & orchestration">
+    <Section id="v004-compiler-overview" title="3.1 Overview & orchestration">
       <Lead>
         <code>Compiler.compile(source, …)</code> (Compiler.kt:128) drives the whole pipeline. A malformed program
         is a <code>CompilationResult.Failure</code> carrying messages — never a thrown exception — so editors,
@@ -76,7 +76,7 @@ when (result) {
 
 export function FrontendChapter() {
   return (
-    <Section id="wip-compiler-frontend" title="3.2 Frontend">
+    <Section id="v004-compiler-frontend" title="3.2 Frontend">
       <Lead>
         The frontend turns source text into a validated <code>Program</code> AST. Newlines are significant
         (statement terminators), and a parse-time metaprogramming environment drives <code>inline for</code>.
@@ -125,7 +125,7 @@ export function FrontendChapter() {
 
 export function PreSemanticChapter() {
   return (
-    <Section id="wip-compiler-presemantic" title="3.3 Pre-semantic rewrites">
+    <Section id="v004-compiler-presemantic" title="3.3 Pre-semantic rewrites">
       <Lead>
         Between parsing and semantic analysis, several passes rewrite the AST: debug instrumentation, standard-
         library injection, serialization derivation, macro expansion, and variadic monomorphization.
@@ -152,7 +152,7 @@ export function PreSemanticChapter() {
 
 export function SemanticPipelineChapter() {
   return (
-    <Section id="wip-compiler-semantic" title="3.4 Semantic pipeline">
+    <Section id="v004-compiler-semantic" title="3.4 Semantic pipeline">
       <Lead>
         <code>SemanticPipeline.analyze</code> (SemanticPipeline.kt:74) runs six passes. The fixed-point compile-
         time-evaluation loop lets metaprogramming settle before types are resolved.
@@ -184,7 +184,7 @@ export function SemanticPipelineChapter() {
 
 export function StdlibInjectionChapter() {
   return (
-    <Section id="wip-compiler-stdlib" title="3.5 Standard-library injection">
+    <Section id="v004-compiler-stdlib" title="3.5 Standard-library injection">
       <Lead>
         <code>StdlibInjector</code> (stdlib/StdlibInjector.kt) treats the standard library like any other
         dependency: a file sees a module’s names only after importing it. The compiler does not hardcode a
@@ -216,7 +216,7 @@ export function StdlibInjectionChapter() {
 
 export function IrGenerationChapter() {
   return (
-    <Section id="wip-compiler-ir" title="3.6 IR generation">
+    <Section id="v004-compiler-ir" title="3.6 IR generation">
       <Lead>
         <code>IrGenerator</code> (ir/IrGenerator.kt:47) lowers the type-checked AST into a typed IR where every
         expression carries its <code>IrType</code>, so backends emit type-correct code without re-running
@@ -257,7 +257,7 @@ export function IrGenerationChapter() {
 
 export function JavaScriptBackendChapter() {
   return (
-    <Section id="wip-compiler-js" title="3.7 JavaScript backend">
+    <Section id="v004-compiler-js" title="3.7 JavaScript backend">
       <Lead>
         <code>JavaScriptCodegen</code> (backend/JavaScriptCodegen.kt:39) emits plain JavaScript. Because JS is
         dynamically typed, no type annotations are emitted; IR types are consulted only to pick runtime behaviour.
@@ -284,7 +284,7 @@ export function JavaScriptBackendChapter() {
 
 export function WasmBackendChapter() {
   return (
-    <Section id="wip-compiler-wasm" title="3.8 WebAssembly backend">
+    <Section id="v004-compiler-wasm" title="3.8 WebAssembly backend">
       <Lead>
         <code>WasmCodegen</code> (backend/WasmCodegen.kt:47) emits WebAssembly text (WAT) in folded S-expression
         form. Each Azora value is a single WASM value; strings and arrays are pointers into linear memory.
@@ -314,7 +314,7 @@ export function WasmBackendChapter() {
 
 export function LlvmBackendChapter() {
   return (
-    <Section id="wip-compiler-llvm" title="3.9 LLVM backend">
+    <Section id="v004-compiler-llvm" title="3.9 LLVM backend">
       <Lead>
         <code>LlvmCodegen</code> (backend/LlvmCodegen.kt:64) emits LLVM IR text (a <code>.ll</code>) that runs
         directly under <code>lli</code> or compiles with <code>clang</code>/<code>llc</code>. It is the most
@@ -347,7 +347,7 @@ export function LlvmBackendChapter() {
 
 export function InterpreterChapter() {
   return (
-    <Section id="wip-compiler-interp" title="3.10 Interpreter">
+    <Section id="v004-compiler-interp" title="3.10 Interpreter">
       <Lead>
         <code>IrInterpreter</code> (backend/IrInterpreter.kt:60) is a fourth execution target: a tree-walking
         evaluator of <code>IrProgram</code>. It is <b>not</b> dispatched from <code>Compiler.compile()</code> — the
@@ -375,7 +375,7 @@ export function InterpreterChapter() {
 
 export function BridgesFfiChapter() {
   return (
-    <Section id="wip-compiler-bridges" title="3.11 Bridges & FFI">
+    <Section id="v004-compiler-bridges" title="3.11 Bridges & FFI">
       <Lead>
         <code>bridge</code> marks declarations as compiler-provided: they have a reflectable site in the source
         but no Azora body. The backend supplies the native implementation.

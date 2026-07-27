@@ -8,11 +8,11 @@ import { ApiTable, CodeBlock, Lead, Note, Section, Subheading } from './Shared.j
 
 export function CurrentLanguage() {
   return (
-    <Section id="wip-language" title="1. Current Language">
+    <Section id="v004-language" title="1. Current Language">
       <Lead>
-        This part of the book describes the language as it exists in the repository today. It is organised as a
-        single story - read from the top, or jump to any chapter. Syntax here tracks the latest compiler, so it
-        may change before the next versioned release.
+        This edition documents Azora 0.0.4 as a versioned snapshot. It is organised as a single story - read
+        from the top, or jump to any chapter. Examples and syntax in this edition remain fixed to the 0.0.4
+        language surface.
       </Lead>
       <p>
         Azora is a statically-typed, native-compiled language. It aims for Kotlin-like readability while giving
@@ -44,7 +44,7 @@ func main() {
 
 export function ModulesAndZones() {
   return (
-    <Section id="wip-modules" title="1.1 Modules, imports, and zones">
+    <Section id="v004-modules" title="1.1 Modules, imports, and zones">
       <Lead>
         A <b>module</b> locates code (it maps to a file path). A <b>zone</b> is a shared namespace that lives
         inside the code. Keeping them separate means libraries organise themselves without hardcoded roots.
@@ -173,7 +173,7 @@ func main() {
 
 export function VariablesAndBindings() {
   return (
-    <Section id="wip-variables" title="1.2 Variables & bindings">
+    <Section id="v004-variables" title="1.2 Variables & bindings">
       <Lead>
         Three binding keywords express three intents: <code>var</code> (mutable), <code>let</code> (immutable
         reference), and <code>fin</code> (deeply immutable value). Types are usually inferred.
@@ -228,7 +228,7 @@ export function VariablesAndBindings() {
 
 export function PrimitiveTypes() {
   return (
-    <Section id="wip-primitive-types" title="1.3 Primitive types">
+    <Section id="v004-primitive-types" title="1.3 Primitive types">
       <Lead>
         Azora has fixed-width integer families, two floating-point widths plus a decimal, plus <code>Bool</code>,
         <code>Char</code>, <code>String</code>, <code>Unit</code>, and the top type <code>Any</code>.
@@ -294,7 +294,7 @@ fin grouped = 1_000_000`}</CodeBlock>
 
 export function OperatorsAndCasts() {
   return (
-    <Section id="wip-operators" title="1.4 Operators & casts">
+    <Section id="v004-operators" title="1.4 Operators & casts">
       <Lead>
         Azora has the usual arithmetic, comparison, logical, bitwise, and compound-assignment operators, plus
         ranges and three cast forms. Each cast is sugar for a <code>std</code> intrinsic; there is no <code>cast</code>
@@ -381,7 +381,7 @@ name ?+= "!"                     // mutate only when non-null`}</CodeBlock>
 
 export function Strings() {
   return (
-    <Section id="wip-strings" title="1.5 Strings">
+    <Section id="v004-strings" title="1.5 Strings">
       <Lead>
         Strings are double-quoted UTF-8. Interpolation uses <code>{'${}'}</code>; <code>+</code> concatenates and
         <code>*</code> repeats.
@@ -431,7 +431,7 @@ export function Strings() {
 
 export function ArraysAndCollections() {
   return (
-    <Section id="wip-arrays" title="1.6 Arrays & collection literals">
+    <Section id="v004-arrays" title="1.6 Arrays & collection literals">
       <Lead>
         Square brackets are <b>not</b> array literals in Azora. <code>[T]</code> is a <i>type</i> spelling (it
         resolves to <code>List&lt;T&gt;</code>), and <code>[T, U]</code> can describe a tuple type. To build an
@@ -504,7 +504,7 @@ func main() {
 
 export function ControlFlow() {
   return (
-    <Section id="wip-control-flow" title="1.7 Control flow">
+    <Section id="v004-control-flow" title="1.7 Control flow">
       <Lead>
         Azora has <code>if</code>/<code>else</code>, <code>when</code> (pattern switch), counted <code>for</code>,
         <code>reverse for</code>, and <code>loop</code>, plus labelled <code>break</code>/<code>continue</code>.
@@ -612,7 +612,7 @@ func main() {
 
 export function FunctionsAndLambdas() {
   return (
-    <Section id="wip-functions" title="1.8 Functions & lambdas">
+    <Section id="v004-functions" title="1.8 Functions & lambdas">
       <Lead>
         Functions are declared with <code>func</code>. Parameters may have defaults and are passed by value,
         <code>ref</code>, or <code>out</code>. Lambdas are first-class; the single-parameter form can use
@@ -703,7 +703,7 @@ func main(): Int {
 
 export function PacksAndImpls() {
   return (
-    <Section id="wip-packs" title="1.9 Packs, impls & properties">
+    <Section id="v004-packs" title="1.9 Packs, impls & properties">
       <Lead>
         A <code>pack</code> is a struct: a bundle of named fields. Behaviour lives in <code>impl</code> blocks;
         each method declares its receiver (<code>ref self</code> or <code>mut ref self</code>).
@@ -768,7 +768,7 @@ func main() {
 
 export function GenericsAndVariadics() {
   return (
-    <Section id="wip-generics" title="1.10 Generics & variadics">
+    <Section id="v004-generics" title="1.10 Generics & variadics">
       <Lead>
         Functions and packs take type parameters in angle brackets. A trailing <code>...T</code> declares a
         variadic parameter; <code>...arr</code> spreads an array into a call.
@@ -811,7 +811,7 @@ func main() {
 
 export function SpecsAndTraits() {
   return (
-    <Section id="wip-specs" title="1.11 Specs & traits">
+    <Section id="v004-specs" title="1.11 Specs & traits">
       <Lead>
         A <code>spec</code> is a trait - a named capability. A spec with a callback body generates a named member
         on implementers via the <code>use as</code> template.
@@ -860,7 +860,7 @@ func main() {
 
 export function EnumsTuplesSlots() {
   return (
-    <Section id="wip-enums" title="1.12 Enums, tuples & slots">
+    <Section id="v004-enums" title="1.12 Enums, tuples & slots">
       <Lead>
         <code>enum</code> is a named set of values; <code>when</code> matches them exhaustively. Tuples are
         fixed-length heterogeneous sequences. A <code>slot</code> is a closed tagged union.
@@ -905,7 +905,7 @@ func main() {
 
 export function ErrorsAndFailables() {
   return (
-    <Section id="wip-errors" title="1.13 Errors & failable types">
+    <Section id="v004-errors" title="1.13 Errors & failable types">
       <Lead>
         An error set (<code>fail</code>) lists the things that can go wrong. A type written <code>T!E</code> is a
         failable - either a <code>T</code> or one of the errors in <code>E</code>. Errors are values, not exceptions.
@@ -944,7 +944,7 @@ func parsePort(text: String): Int!ParseError {
 
 export function NullableTypes() {
   return (
-    <Section id="wip-nullable" title="1.14 Nullable types">
+    <Section id="v004-nullable" title="1.14 Nullable types">
       <Lead>
         A trailing <code>?</code> marks a nullable type. Use <code>?.</code> for safe access and <code>?:</code>
         for a fallback.
@@ -978,7 +978,7 @@ func main() {
 
 export function OwnershipAndReferences() {
   return (
-    <Section id="wip-ownership" title="1.15 Ownership & references">
+    <Section id="v004-ownership" title="1.15 Ownership & references">
       <Lead>
         Values are owned by default. Borrowing is spelled with words - <code>ref</code>, <code>mut ref</code>,
         <code>shared ref</code>, <code>weak ref</code> - so ownership reads at the call site.
@@ -1019,7 +1019,7 @@ func main() {
 
 export function MemoryModel() {
   return (
-    <Section id="wip-memory" title="1.16 The memory model">
+    <Section id="v004-memory" title="1.16 The memory model">
       <Lead>
         For systems work, Azora exposes explicit allocation, pointers, and an <code>unsafe</code> escape hatch.
         Smart pointers (<code>Unique</code>, <code>Arc</code>, <code>Weak</code>, <code>Ptr</code>,
@@ -1067,7 +1067,7 @@ export function MemoryModel() {
 
 export function CompileTimeExecution() {
   return (
-    <Section id="wip-ctce" title="1.17 Compile-time execution">
+    <Section id="v004-ctce" title="1.17 Compile-time execution">
       <Lead>
         <code>inline</code>, <code>deepinline</code>, and <code>noinline</code> control how the compiler folds
         code at build time. <code>inline fin</code> declares a compile-time constant; <code>inline for</code>
@@ -1117,7 +1117,7 @@ export function CompileTimeExecution() {
 
 export function Contracts() {
   return (
-    <Section id="wip-contracts" title="1.18 Contracts">
+    <Section id="v004-contracts" title="1.18 Contracts">
       <Lead>
         Contracts state pre- and post-conditions directly on a function. They are checked (in debug builds) at the
         boundaries they describe: <code>in</code> before the body, <code>out</code> after it, with <code>zone</code>
@@ -1170,7 +1170,7 @@ in {
 
 export function ConcurrencyAndTasks() {
   return (
-    <Section id="wip-concurrency" title="1.19 Concurrency & tasks">
+    <Section id="v004-concurrency" title="1.19 Concurrency & tasks">
       <Lead>
         A <code>task</code> is a suspending function. <code>async</code> starts work that you <code>await</code>
         later; children are owned by their parent task and cancellation flows through that tree.
@@ -1205,7 +1205,7 @@ task main() {
 
 export function ReactivityAndComponents() {
   return (
-    <Section id="wip-reactivity" title="1.20 Reactivity & components">
+    <Section id="v004-reactivity" title="1.20 Reactivity & components">
       <Lead>
         A <code>view</code> is a stateful component. <code>rem</code> / <code>mem</code> / <code>ret</code>
         remember state with different lifecycles; <code>effect</code> runs side effects.
@@ -1241,7 +1241,7 @@ func main() {
 
 export function Inheritance() {
   return (
-    <Section id="wip-inheritance" title="1.21 Inheritance (node / leaf)">
+    <Section id="v004-inheritance" title="1.21 Inheritance (node / leaf)">
       <Lead>
         Inheritance uses <code>node</code> (an inheritable type) and <code>leaf</code> (a sealed subclass).
         Override with <code>repl func</code>; mark virtual dispatch with <code>virt</code>.
@@ -1295,7 +1295,7 @@ func main() {
 
 export function DiAndFfi() {
   return (
-    <Section id="wip-di-ffi" title="1.22 Dependency injection & FFI">
+    <Section id="v004-di-ffi" title="1.22 Dependency injection & FFI">
       <Lead>
         <code>solo</code> declares a singleton resolved by the DI container; <code>bridge</code> declares foreign
         functions for a specific backend target.
@@ -1328,7 +1328,7 @@ bridge .C {
 
 export function TestingAndTracing() {
   return (
-    <Section id="wip-testing" title="1.23 Testing & tracing">
+    <Section id="v004-testing" title="1.23 Testing & tracing">
       <Lead>
         Tests and trace output are built in - no test framework to install. <code>assert</code> checks a
         condition with a message; <code>trace</code> prints for debugging.

@@ -2,7 +2,7 @@ import { ApiTable, CodeBlock, Lead, Note, Section, Subheading } from './Shared.j
 
 export default function TimeChapter() {
   return (
-    <Section id="wip-time" title="2.3 Time">
+    <Section id="v004-time" title="2.3 Time">
       <Lead>
         <code>std.time</code> distinguishes elapsed time, Unix instants, monotonic readings, and civil calendar
         values. Keeping these types separate prevents accidental conversion of a stopwatch reading into a date

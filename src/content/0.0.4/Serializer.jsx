@@ -2,7 +2,7 @@ import { ApiTable, CodeBlock, Lead, Note, Section, Subheading } from './Shared.j
 
 export default function SerializerChapter() {
   return (
-    <Section id="wip-serializer" title="2.15 Serializer">
+    <Section id="v004-serializer" title="2.15 Serializer">
       <Lead>
         <code>std.serializer</code> separates typed serialization from textual encoding. A
         <code>Serializer&lt;T&gt;</code> converts between <code>T</code> and a lossless <code>SerialValue</code> tree;

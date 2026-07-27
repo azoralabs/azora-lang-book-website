@@ -1,75 +1,6 @@
 import { useState } from 'react'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
-
-// ── Custom Azora language definition ────────────────────────────
-function azora(Prism) {
-  Prism.languages.azora = {
-    'doc-comment': {
-      pattern: /\/\*\*(?!\/)[\s\S]*?\*\//,
-      greedy: true,
-      inside: {
-        'doc-tag': /\B@(?:param|return|since|throws|file)\b/,
-        'doc-param-name': {
-          pattern: /(@param\s+)\w+/,
-          lookbehind: true,
-        },
-      },
-    },
-    comment: [
-      { pattern: /\/\/.*/, greedy: true },
-      { pattern: /\/\*[\s\S]*?\*\//, greedy: true },
-    ],
-    decorator: {
-      pattern: /@\w+(?::[\w.]+)?(?:\([^)]*\))?/,
-      alias: 'annotation',
-    },
-    preprocessor: {
-      pattern: /\$\w+/,
-      alias: 'variable',
-    },
-    string: {
-      pattern: /"(?:[^"\\]|\\[\s\S])*"/,
-      greedy: true,
-      inside: {
-        interpolation: {
-          pattern: /\$\{[^}]*\}|\$[a-zA-Z_]\w*/,
-          inside: {
-            'interpolation-punctuation': {
-              pattern: /^\$\{?|\}$/,
-              alias: 'punctuation',
-            },
-          },
-        },
-      },
-    },
-    number: /\b\d[\d_]*(?:\.[\d_]+)?\b/,
-    'type-keyword': {
-      pattern: /\b(?:Int|UInt|Long|ULong|Byte|UByte|Short|UShort|Cent|UCent|Float|Real|Decimal|Bool|Char|String|Unit)\b/,
-      alias: 'class-name',
-    },
-    'builtin-fn': {
-      pattern: /\b(?:println|print)\b/,
-      alias: 'builtin',
-    },
-    boolean: /\b(?:true|false)\b/,
-    'null-literal': {
-      pattern: /\bnull\b/,
-      alias: 'boolean',
-    },
-    keyword: /\b(?:var|fin|let|func|return|module|export|import|use|if|else|inline|deepinline|noinline|zone|friend|test|assert|trace|mixin|panic|for|while|loop|in|by|reverse|break|continue|when|guard|defer|rescue|as|is|it|null|pack|enum|slot|impl|spec|typealias|node|leaf|repl|virt|base|fail|flow|yield|task|await|launch|async|cancel|alloc|drop|deref|unsafe|isolated|bridge|solo|inject|wrap|mem|rem|ret|effect|view|hook|prop|ctor|dtor|flip|flop|deco|bind|oper|infx|expose|intern|confine|protect|shield|ref|out|mut|shared|weak|threadlocal|throw|try|catch)\b/,
-    'type-name': {
-      pattern: /\b[A-Z][a-zA-Z0-9_]*\b/,
-      alias: 'class-name',
-    },
-    function: {
-      pattern: /\b[a-z_]\w*(?=\s*[(<])/,
-    },
-    operator: /\.\.\.?|->|::|[+\-*/%]=?|&&|\|\||[<>!=]=?|!|\?\?|\?=|\?[+\-*/%]=|\?\+\+|\?--/,
-    punctuation: /[{}[\]();:.,<>?]/,
-  }
-}
-azora.displayName = 'azora'
-azora.aliases = []
+import { createAzoraLanguage } from '../data/azora-prism.js'
 
 // ── Python language definition ──────────────────────────────────
 function python(Prism) {
@@ -353,7 +284,6 @@ bash.displayName = 'bash'
 bash.aliases = ['sh']
 
 // ── Register all languages ──────────────────────────────────────
-SyntaxHighlighter.registerLanguage('azora', azora)
 SyntaxHighlighter.registerLanguage('python', python)
 SyntaxHighlighter.registerLanguage('javascript', javascript)
 SyntaxHighlighter.registerLanguage('js', javascript)
@@ -374,6 +304,18 @@ SyntaxHighlighter.registerLanguage('wasm', wasm)
 SyntaxHighlighter.registerLanguage('wat', wasm)
 SyntaxHighlighter.registerLanguage('bash', bash)
 SyntaxHighlighter.registerLanguage('sh', bash)
+
+const semanticLanguages = new Map()
+let semanticLanguageId = 0
+
+function semanticAzoraLanguage(source) {
+  const existing = semanticLanguages.get(source)
+  if (existing) return existing
+  const name = `azorasemantic${semanticLanguageId++}`
+  SyntaxHighlighter.registerLanguage(name, createAzoraLanguage(source, name))
+  semanticLanguages.set(source, name)
+  return name
+}
 
 // ── Shared dark theme (Azora palette) ───────────────────────────
 const baseTheme = {
@@ -408,13 +350,20 @@ const azoraTheme = {
   keyword: { color: '#D16B8E', fontWeight: 'bold' },
   boolean: { color: '#D16B8E', fontWeight: 'bold' },
   'class-name': { color: '#5FA89F' },
-  builtin: { color: '#D4A574' },
-  function: { color: '#D4A574' },
+  builtin: { color: '#E6C96B' },
+  function: { color: '#E6C96B' },
+  parameter: {
+    color: '#B8B8B8',
+    textDecorationLine: 'underline',
+    textUnderlineOffset: '3px',
+  },
   'doc-comment': { color: '#6B9F77', fontStyle: 'italic' },
   'doc-tag': { color: '#5BA3D0', fontWeight: 'bold' },
   'doc-param-name': { color: '#D9D9D9' },
   annotation: { color: '#E6C96B' },
-  variable: { color: '#B06FA8', fontStyle: 'italic' },
+  variable: { color: '#D9DADA' },
+  preprocessor: { color: '#B06FA8', fontStyle: 'italic' },
+  macro: { color: '#B06FA8', fontWeight: 'bold' },
   interpolation: { color: '#E6C96B' },
   'interpolation-punctuation': { color: '#E6C96B' },
 }
@@ -565,6 +514,8 @@ const langLabels = {
 export default function CodeBlock({ children, title, language }) {
   const [copied, setCopied] = useState(false)
   const lang = language || 'azora'
+  const source = String(children ?? '')
+  const syntaxLanguage = lang === 'azora' ? semanticAzoraLanguage(source) : lang
   const selectedTheme = themes[lang] || azoraTheme
   const langLabel = langLabels[lang]
 
@@ -590,7 +541,7 @@ export default function CodeBlock({ children, title, language }) {
           {copied ? 'Copied!' : 'Copy'}
         </button>
         <SyntaxHighlighter
-          language={lang}
+          language={syntaxLanguage}
           style={selectedTheme}
           wrapLongLines
         >

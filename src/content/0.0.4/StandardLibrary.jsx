@@ -9,7 +9,7 @@ import { ApiTable, CodeBlock, Lead, Note, Section, Subheading } from './Shared.j
 
 export function StandardLibrary() {
   return (
-    <Section id="wip-stdlib" title="2. Standard Library">
+    <Section id="v004-stdlib" title="2. Standard Library">
       <Lead>
         The standard library is ordinary Azora source installed with the toolchain. The compiler does not
         hardcode a <code>std</code> module - imports resolve from available library modules exactly like any
@@ -39,7 +39,7 @@ import std.container.list
 
 func main() {
     fin createdAt = std::now()
-    fin tags = std::listOf("azora", "wip")
+    fin tags = std::listOf("azora", "0.0.4")
     std::println(std::formatIsoInstant(createdAt))
     std::println(tags.size as String)
 }`}</CodeBlock>
@@ -53,7 +53,7 @@ func main() {
 
 export function ImportsAndConventions() {
   return (
-    <Section id="wip-stdlib-conventions" title="2.1 Imports and conventions">
+    <Section id="v004-stdlib-conventions" title="2.1 Imports and conventions">
       <Lead>
         Import the narrowest module that owns the API you need. This keeps dependencies visible and avoids
         coupling to unrelated declarations in a larger zone.
@@ -103,7 +103,7 @@ func main() {
 
 export function IoChapter() {
   return (
-    <Section id="wip-stdlib-io" title="2.2 IO">
+    <Section id="v004-stdlib-io" title="2.2 IO">
       <Lead>
         <code>std.io</code> is the home of console output. <code>println</code> accepts any value and prints its
         string representation followed by a newline.
@@ -135,7 +135,7 @@ func main() {
 
 export function ConvertChapter() {
   return (
-    <Section id="wip-stdlib-convert" title="2.3 Convert">
+    <Section id="v004-stdlib-convert" title="2.3 Convert">
       <Lead>
         <code>std.convert</code> defines the <code>Into&lt;T&gt;</code> and <code>From&lt;T&gt;</code> specs. The
         converting cast <code>x as T</code> (i.e. <code>{'std::cast<T>(x)'}</code>) is the primitive conversion; the
@@ -170,7 +170,7 @@ func main() {
 
 export function MathChapter() {
   return (
-    <Section id="wip-stdlib-math" title="2.4 Math">
+    <Section id="v004-stdlib-math" title="2.4 Math">
       <Lead>
         <code>std.math</code> provides numeric constants and functions. Trigonometry and roots bind to the
         platform math library on native targets and <code>Math</code> on web targets.
@@ -207,7 +207,7 @@ func main() {
 
 export function StringsAndCharsChapter() {
   return (
-    <Section id="wip-stdlib-strings" title="2.5 Strings & chars">
+    <Section id="v004-stdlib-strings" title="2.5 Strings & chars">
       <Lead>
         <code>String</code> and <code>Char</code> are built-in types with helpers in the standard library for
         searching, slicing, and case conversion.
@@ -243,7 +243,7 @@ func main() {
 
 export function RandomChapter() {
   return (
-    <Section id="wip-stdlib-random" title="2.6 Random">
+    <Section id="v004-stdlib-random" title="2.6 Random">
       <Lead>
         <code>std.random</code> provides deterministic, seedable pseudo-random generation.
       </Lead>
@@ -270,7 +270,7 @@ func main() {
 
 export function ResultChapter() {
   return (
-    <Section id="wip-stdlib-result" title="2.7 Result">
+    <Section id="v004-stdlib-result" title="2.7 Result">
       <Lead>
         <code>std.result</code> provides a <code>Result&lt;T, E&gt;</code> type for operations that succeed or
         fail with a payload, complementing the language-level failable <code>T!E</code>.
@@ -298,7 +298,7 @@ func main() {
 
 export function FunctionalChapter() {
   return (
-    <Section id="wip-stdlib-functional" title="2.8 Functional">
+    <Section id="v004-stdlib-functional" title="2.8 Functional">
       <Lead>
         <code>std.functional</code> offers combinators for working with functions and collections: composition,
         partial application, and pipeline helpers.
@@ -329,7 +329,7 @@ func main() {
 
 export function TraitsChapter() {
   return (
-    <Section id="wip-stdlib-traits" title="2.9 Traits">
+    <Section id="v004-stdlib-traits" title="2.9 Traits">
       <Lead>
         <code>std.traits</code> declares the core specs shared across the library: <code>Comparable</code>,
         <code>Into</code>, <code>From</code>, and friends. Implement them on your own types to integrate with
@@ -369,7 +369,7 @@ func main() {
 
 export function AlgorithmChapter() {
   return (
-    <Section id="wip-stdlib-algorithm" title="2.10 Algorithm">
+    <Section id="v004-stdlib-algorithm" title="2.10 Algorithm">
       <Lead>
         <code>std.algorithm</code> provides sorting and searching over indexable collections.
       </Lead>
@@ -399,7 +399,7 @@ func main() {
 
 export function MemoryChapter() {
   return (
-    <Section id="wip-stdlib-memory" title="2.11 Memory">
+    <Section id="v004-stdlib-memory" title="2.11 Memory">
       <Lead>
         <code>std.memory</code> provides the allocator arena types and smart pointers:
         <code>Ptr</code>, <code>Unique</code>, <code>Arc</code>, <code>Weak</code>, and <code>Slice</code>.
@@ -434,7 +434,7 @@ func main() {
 
 export function ConcurrencyStdlibChapter() {
   return (
-    <Section id="wip-stdlib-concurrency" title="2.12 Concurrency">
+    <Section id="v004-stdlib-concurrency" title="2.12 Concurrency">
       <Lead>
         <code>std.concurrency</code> builds higher-level patterns on the language’s tasks and flows: timeouts,
         retries, and parallel fan-out.
@@ -463,7 +463,7 @@ task main() {
 
 export function ParallelismChapter() {
   return (
-    <Section id="wip-stdlib-parallelism" title="2.13 Parallelism">
+    <Section id="v004-stdlib-parallelism" title="2.13 Parallelism">
       <Lead>
         <code>std.parallelism</code> covers OS-style threads, channels for message passing, and a
         <code>Mutex</code> for mutual exclusion.
@@ -494,7 +494,7 @@ func main() {
 
 export function MacroChapter() {
   return (
-    <Section id="wip-stdlib-macro" title="2.17 Macro">
+    <Section id="v004-stdlib-macro" title="2.17 Macro">
       <Lead>
         <code>std.macro</code> defines the sigil macros that make common literals concise, plus the compile-time
         type macros that map short syntax to library types.
@@ -543,7 +543,7 @@ func card(s: {Int}): Int { return s.size }`}</CodeBlock>
 
 export function ReflectionChapter() {
   return (
-    <Section id="wip-stdlib-reflection" title="2.18 Reflection">
+    <Section id="v004-stdlib-reflection" title="2.18 Reflection">
       <Lead>
         <code>std::reflection</code> exposes compile-time type metadata through the <code>reflector</code> /
         <code>{'std::reflect<T>'}</code> handle: a type’s name, its decorators, and the zone it was declared in.
@@ -580,7 +580,7 @@ func main() {
 
 export function ReactiveChapter() {
   return (
-    <Section id="wip-stdlib-reactive" title="2.19 Reactive">
+    <Section id="v004-stdlib-reactive" title="2.19 Reactive">
       <Lead>
         <code>std.reactive</code> provides the reactive primitives that back <code>view</code> components and
         reactive state holders.
