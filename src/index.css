@@ -40,6 +40,10 @@
   --color-pastel-yellow: #E6C96B;
   --color-pastel-red: #D17179;
   --color-pastel-purple: #B06FA8;
+
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-code: 'JetBrains Mono', 'SFMono-Regular', 'Cascadia Code', 'Fira Code', Consolas, monospace;
 }
 
 html {
@@ -50,7 +54,7 @@ html {
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
   background:
     linear-gradient(rgba(5, 7, 10, 0.94), rgba(5, 7, 10, 0.97)),
     url('/azora-glass-hero.webp') center / cover fixed;
@@ -194,6 +198,6 @@ code:not(pre code) {
   font-size: 0.875em;
   padding: 0.15em 0.4em;
   border-radius: 0.25rem;
-  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  font-family: var(--font-code);
   background-color: #262626;
 }
