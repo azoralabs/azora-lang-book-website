@@ -712,14 +712,12 @@ export function PacksAndImpls() {
       <Subheading>1.9.1 Fields and visibility</Subheading>
       <ApiTable rows={[
         ['expose / confine / protect', 'Field visibility modifiers (public / private / protected).'],
-        ['shield', 'Externally read-only, internally mutable.'],
         ['fin / var', 'Immutable / mutable field.'],
         ['opaque pack X { … }', 'Forces every field to confine; no field visibility modifier may be written.'],
       ]} />
       <CodeBlock>{`pack Counter {
     var count: Int
     fin label: String
-    shield var cache: Int = 0
 }
 
 opaque pack Handle {
@@ -1007,7 +1005,7 @@ func main() {
 }`}</CodeBlock>
       <Note>
         Extension methods can request <code>mut ref self</code> only when the pack has <code>expose</code>d mutable
-        state. A pack with no exposed fields is mutation-shielded outside its file.
+        state. A pack with no exposed fields cannot be mutated by an extension outside its file.
       </Note>
     </Section>
   )

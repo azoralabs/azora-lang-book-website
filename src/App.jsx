@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar.jsx'
 import MobileNav from './components/MobileNav.jsx'
 import { sections as sections004 } from './content/0.0.4/index.js'
 import { sections as sections005Dev } from './content/0.0.5-dev/index.js'
+import { BookIcon, CodeIcon, DocsIcon, TerminalIcon } from './AzIcons.jsx'
 
 const DEFAULT_EDITION = '0.0.4'
 const EDITIONS = {
@@ -113,6 +114,12 @@ export default function App() {
             </select>
           </span>
         </div>
+        <nav className="az-topbar-links">
+          <a href="https://azoralang.org"><TerminalIcon />Language</a>
+          <a href="https://book.azoralang.org"><BookIcon />Book</a>
+          <a href="https://docs.azoralang.org"><DocsIcon />Docs</a>
+          <a href="https://code.azoralang.org"><CodeIcon />Playground</a>
+        </nav>
       </header>
 
       {/* Mobile nav */}

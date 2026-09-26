@@ -99,7 +99,7 @@ func main() {
         and the <code>SerialValue</code> tree; both are failable.
       </p>
       <CodeBlock>{`pack UserId {
-    shield fin value: Long
+    fin value: Long
 }
 
 pack UserIdSerializer

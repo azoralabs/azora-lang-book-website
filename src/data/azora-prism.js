@@ -6,7 +6,7 @@ const BUILTIN_TYPES = new Set([
   'UCent', 'UInt', 'ULong', 'UShort', 'USize', 'Unit',
 ])
 
-const KEYWORD_PATTERN = /\b(?:alloc|as|assert|await|bind|break|bridge|by|catch|confine|continue|ctor|deco|deepinline|defer|deref|drop|dtor|effect|else|enum|expose|export|fail|false|fin|flip|flop|flow|for|friend|func|guard|if|impl|import|in|infx|inject|inline|is|isolated|launch|let|loop|mem|meta|module|noinline|null|opaque|oper|out|pack|panic|prop|protect|protected|rem|rescue|ret|return|reverse|shield|slot|solo|spec|task|test|threadlocal|throw|trace|true|try|type|typealias|unsafe|use|var|when|while|with|wrap|yield|zone)\b/
+const KEYWORD_PATTERN = /\b(?:alloc|as|assert|await|bind|break|bridge|by|catch|confine|continue|ctor|deco|deepinline|defer|deref|drop|dtor|effect|else|enum|expose|export|fail|false|fin|flip|flop|flow|for|friend|func|guard|if|impl|import|in|infx|inject|inline|is|isolated|launch|let|loop|mem|meta|module|noinline|null|opaque|oper|out|pack|panic|prop|protect|protected|rem|rescue|ret|return|reverse|slot|solo|spec|task|test|threadlocal|throw|trace|true|try|type|typealias|unsafe|use|var|when|while|with|wrap|yield|zone)\b/
 
 function codeOnly(source) {
   const chars = [...source]
