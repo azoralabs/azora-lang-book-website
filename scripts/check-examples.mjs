@@ -2,11 +2,16 @@
 /**
  * Type-check the book's Azora examples against the real compiler.
  *
- * Every <CodeBlock> whose text begins with `module ` is a complete program and
- * is handed to `azora check`. Blocks that do not begin with `module ` are
- * fragments quoted for illustration and are skipped.
+ * Every <CodeBlock> whose text begins with a module header (`module `, or
+ * `exposed module ` / `confined module `) is a complete program and is handed
+ * to `azora check`. Other blocks are fragments quoted for illustration and are
+ * skipped.
  *
- *   node scripts/check-examples.mjs [edition]
+ *   node scripts/check-examples.mjs [edition] [--run]
+ *
+ * With --run, a program with a `main` is also run and one with `test` blocks
+ * is also tested, so an example that type-checks but fails at runtime is
+ * reported too.
  *
  * AZORA_BIN overrides the compiler path.
  */
@@ -20,7 +25,9 @@ import { promisify } from 'node:util'
 const run = promisify(execFile)
 const here = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(here, '..')
-const edition = process.argv[2] || '0.1-dev'
+const args = process.argv.slice(2)
+const alsoRun = args.includes('--run')
+const edition = args.find((a) => !a.startsWith('--')) || '0.1.0-dev'
 const contentDir = path.join(root, 'src', 'content', edition)
 
 const AZORA = process.env.AZORA_BIN
@@ -53,6 +60,7 @@ const tmp = await fs.mkdtemp(path.join(os.tmpdir(), 'azbook-'))
 
 let checked = 0
 let skipped = 0
+let executed = 0
 const failures = []
 
 for (const file of files) {
@@ -60,17 +68,24 @@ for (const file of files) {
   const blocks = codeBlocks(source)
   for (const [index, raw] of blocks.entries()) {
     const code = unescape(raw).trim()
-    if (!code.startsWith('module ')) { skipped += 1; continue }
+    if (!/^(?:(?:exposed|confined) )*module /.test(code)) { skipped += 1; continue }
 
     const name = `${file.replace(/\.jsx$/, '')}-${index}.az`
     const onDisk = path.join(tmp, name)
     await fs.writeFile(onDisk, code + '\n')
     checked += 1
-    try {
-      await run(AZORA, ['check', onDisk], { timeout: 120000 })
-    } catch (error) {
-      const out = `${error.stdout || ''}${error.stderr || ''}`.trim()
-      failures.push({ file, index, message: out.split('\n').slice(0, 4).join('\n') })
+    const stages = [['check', onDisk]]
+    if (alsoRun && /\bfunc\s+main\s*\(/.test(code)) stages.push(['run', onDisk])
+    if (alsoRun && /\btest\s+"/.test(code)) stages.push(['test', onDisk])
+    for (const stage of stages) {
+      try {
+        await run(AZORA, stage, { timeout: 120000 })
+        if (stage[0] !== 'check') executed += 1
+      } catch (error) {
+        const out = `${error.stdout || ''}${error.stderr || ''}`.trim()
+        failures.push({ file, index, message: `[${stage[0]}] ${out.split('\n').slice(0, 4).join('\n')}` })
+        break
+      }
     }
   }
 }
@@ -85,4 +100,5 @@ if (failures.length) {
   }
   process.exit(1)
 }
-console.log('all complete examples type-check')
+await fs.rm(tmp, { recursive: true, force: true })
+console.log(`all complete examples type-check${alsoRun ? `; ${executed} execution stages passed` : ''}`)

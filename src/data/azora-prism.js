@@ -1,12 +1,12 @@
 /** Source-aware Azora language definition for Prism and refractor. */
 
 const BUILTIN_TYPES = new Set([
-  'Any', 'Bool', 'Byte', 'Cent', 'Char', 'Decimal', 'Float', 'Int', 'Long',
-  'Nothing', 'Real', 'ReturnType', 'Short', 'Size', 'String', 'Type', 'UByte',
+  'Any', 'Bool', 'Byte', 'Cent', 'Char', 'Quad', 'Float', 'Half', 'Int', 'Long',
+  'Nothing', 'Double', 'ReturnType', 'Short', 'Size', 'String', 'Type', 'UByte',
   'UCent', 'UInt', 'ULong', 'UShort', 'USize', 'Unit',
 ])
 
-const KEYWORD_PATTERN = /\b(?:alloc|as|assert|await|bind|break|bridge|by|catch|confine|continue|ctor|deco|deepinline|defer|deref|drop|dtor|effect|else|enum|expose|export|fail|false|fin|flip|flop|flow|for|friend|func|guard|if|impl|import|in|infx|inject|inline|is|isolated|launch|let|loop|mem|meta|module|noinline|null|opaque|oper|out|pack|panic|prop|protect|protected|rem|rescue|ret|return|reverse|slot|solo|spec|task|test|threadlocal|throw|trace|true|try|type|typealias|unsafe|use|var|when|while|with|wrap|yield|zone)\b/
+const KEYWORD_PATTERN = /\b(?:__float|__int|__uint|alloc|annot|as|assert|assoc|async|await|bind|binds|break|bridge|by|catch|confined|continue|ctor|deepinline|defer|delay|derive|derives|direct|dtor|effect|else|enum|error|escaping|exposed|factory|false|fin|for|func|graph|if|impl|import|in|includes|inject|inline|is|lazy|lend|let|literal|loop|macro|module|noinline|null|oper|out|pack|panic|preserve|prop|protected|purge|react|remember|requires|rescue|retain|return|scope|scoped|seal|solo|spec|take|test|then|threadlocal|throw|trace|true|try|typealias|union|unsafe|using|val|var|variant|when|where|while|with|without)\b/
 
 function codeOnly(source) {
   const chars = [...source]
@@ -67,7 +67,7 @@ function identifierCount(source, name, start = 0, end = source.length) {
 function genericParameters(source) {
   const names = new Set()
   const headerStart =
-    /\b(?:(?:func|task|flow|infx|pack|spec|deco|node|solo)\s*(?:[A-Za-z_]\w*\s*)?|(?:impl|prop)\s*)</g
+    /\b(?:(?:func|pack|spec|deco|node|solo)\s*(?:[A-Za-z_]\w*\s*)?|(?:impl|prop)\s*)</g
   for (const match of source.matchAll(headerStart)) {
     const open = match.index + match[0].lastIndexOf('<')
     let index = open + 1
@@ -117,7 +117,7 @@ function intersection(left, right) {
 
 function callableDeclarationPattern(names) {
   return new RegExp(
-    `(\\b(?:func|task|flow|hook|infx)\\s*(?:<[^>{}\\n]*>\\s*)?(?:[A-Za-z_]\\w*\\.)?)(?:${namesAlternation(names)})\\b`,
+    `(\\b(?:func)\\s*(?:<[^>{}\\n]*>\\s*)?(?:[A-Za-z_]\\w*\\.)?)(?:${namesAlternation(names)})\\b`,
   )
 }
 
@@ -158,7 +158,7 @@ function analyze(source) {
   )) {
     specTypes.add(match[1])
   }
-  const callable = /\b(?:func|task|flow|hook|infx)\s*(?:<[^>{}\n]*>\s*)?(?:[A-Za-z_]\w*\.)?([A-Za-z_]\w*)\s*(?:<[^>{}\n]*>\s*)?\(([^)]*)\)/g
+  const callable = /\b(?:func)\s*(?:<[^>{}\n]*>\s*)?(?:[&!]\.|[A-Za-z_]\w*\.)?([A-Za-z_]\w*)\s*(?:<[^>{}\n]*>\s*)?\(([^)]*)\)/g
   const callables = [...declarations.matchAll(callable)]
   for (let index = 0; index < callables.length; index += 1) {
     const match = callables[index]
@@ -185,7 +185,7 @@ function analyze(source) {
       }
     }
   }
-  for (const match of declarations.matchAll(/\b(?:var|fin|let)\s+([A-Za-z_]\w*)/g)) {
+  for (const match of declarations.matchAll(/\b(?:var|val|fin|let)\s+([A-Za-z_]\w*)/g)) {
     variables.add(match[1])
     const ownerIndex = callables.findIndex((candidate, index) =>
       match.index >= candidate.index &&
@@ -270,11 +270,11 @@ function semanticTokens(semantics) {
         alias: 'unused-spec-property',
       },
       {
-        pattern: new RegExp(`(\\b(?:func|task|flow|hook|infx)\\s*(?:<[^>{}\\n]*>\\s*)?(?:[A-Za-z_]\\w*\\.)?)(?:${unusedFunctionNames})\\b`),
+        pattern: new RegExp(`(\\b(?:func)\\s*(?:<[^>{}\\n]*>\\s*)?(?:[A-Za-z_]\\w*\\.)?)(?:${unusedFunctionNames})\\b`),
         lookbehind: true,
       },
       {
-        pattern: new RegExp(`(\\b(?:var|fin|let)\\s+)(?:${unusedVariableNames})\\b`),
+        pattern: new RegExp(`(\\b(?:var|val|fin|let)\\s+)(?:${unusedVariableNames})\\b`),
         lookbehind: true,
       },
       {
@@ -366,7 +366,7 @@ export function createAzoraGrammar(source = '') {
       pattern: /@\w+(?::[\w.]+)?(?:\([^)]*\))?/,
       alias: 'annotation',
     },
-    macro: { pattern: /\b[a-z_]\w*@/ },
+    macro: { pattern: /@[a-z_]\w*[!?&*^]?/ },
     preprocessor: { pattern: /\$\w+/ },
     string: {
       pattern: /"(?:[^"\\]|\\[\s\S])*"/,
@@ -381,7 +381,7 @@ export function createAzoraGrammar(source = '') {
             },
             keyword: KEYWORD_PATTERN,
             ...semantic,
-            operator: /\.\.<?|\.\.\.?|->|::|[+\-*/%]=?|&&|\|\||[<>!=]=?|!|\?\?|\?\.|[&|^~]|<<=?|>>=?/,
+            operator: /<=>|<>|>\.\.|\.\.<?|\.\.\.?|->|::|[+\-*/%]=?|&&|\|\||[<>!=]=?|!|\?\?|\?\.|[&|^~]|<<=?|>>=?/,
             punctuation: /[{}[\]();:.,<>?]/,
           },
         },
@@ -394,7 +394,7 @@ export function createAzoraGrammar(source = '') {
       alias: 'boolean',
     },
     'contextual-keyword': {
-      pattern: /(\b(?:(?:func|task|flow|infx)\s*(?:<[^>{}\n]*>\s*)?(?:[A-Za-z_]\w*\.)?[A-Za-z_]\w*\s*\([^)]*\)[^{};]*|(?:pack|node|solo|spec|deco|impl|prop|typealias)\b[^{};]*?))\bwhere\b/,
+      pattern: /(\b(?:(?:func)\s*(?:<[^>{}\n]*>\s*)?(?:[&!]\.|[A-Za-z_]\w*\.)?[A-Za-z_]\w*\s*\([^)]*\)[^{};]*|(?:pack|node|solo|spec|deco|impl|prop|typealias)\b[^{};]*?))\bwhere\b/,
       lookbehind: true,
       alias: 'keyword',
     },
@@ -405,17 +405,17 @@ export function createAzoraGrammar(source = '') {
     'spec-property': specProperty,
     property,
     'zone-declaration': {
-      pattern: /(\b(?:friend\s+)?zone\s+)[A-Za-z_]\w*(?:::[A-Za-z_]\w*)*/,
+      pattern: /(\b(?:scoped\s+)?scope\s+)[A-Za-z_]\w*(?:::[A-Za-z_]\w*)*/,
       lookbehind: true,
     },
     zone,
     'module-path': {
-      pattern: /(^\s*(?:export\s+)?import\s+)[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*(?:\.\*)?/m,
+      pattern: /(^\s*(?:exposed\s+)?import\s+)[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*(?:\.\*)?/m,
       lookbehind: true,
     },
     keyword: KEYWORD_PATTERN,
     ...references,
-    operator: /\.\.<?|\.\.\.?|->|::|[+\-*/%]=?|&&|\|\||[<>!=]=?|!|\?\?|\?\.|\?=|\?[+\-*/%]=|\?\+\+|\?--|[&|^~]|<<=?|>>=?/,
+    operator: /<=>|<>|>\.\.|\.\.<?|\.\.\.?|->|::|[+\-*/%]=?|&&|\|\||[<>!=]=?|!|\?\?|\?\.|\?=|\?[+\-*/%]=|\?\+\+|\?--|[&|^~]|<<=?|>>=?/,
     punctuation: /[{}[\]();:.,<>?]/,
   }
 }

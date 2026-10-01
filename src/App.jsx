@@ -2,11 +2,13 @@ import { useState, useEffect, useCallback } from 'react'
 import Sidebar from './components/Sidebar.jsx'
 import MobileNav from './components/MobileNav.jsx'
 import { sections as sections004 } from './content/0.0.4/index.js'
+import { sections as sections010Dev } from './content/0.1.0-dev/index.js'
 import { sections as sections005Dev } from './content/0.0.5-dev/index.js'
 import { BookIcon, CodeIcon, DocsIcon, TerminalIcon } from './AzIcons.jsx'
 
-const DEFAULT_EDITION = '0.0.4'
+const DEFAULT_EDITION = '0.1.0-dev'
 const EDITIONS = {
+  '0.1.0-dev': sections010Dev,
   '0.0.4': sections004,
   '0.0.5-dev': sections005Dev,
 }
@@ -109,6 +111,7 @@ export default function App() {
               onChange={(event) => changeEdition(event.target.value)}
               aria-label="Choose book edition"
             >
+              <option value="0.1.0-dev">v0.1.0-dev</option>
               <option value="0.0.4">v0.0.4</option>
               <option value="0.0.5-dev">v0.0.5-dev</option>
             </select>

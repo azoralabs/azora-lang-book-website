@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:examples": "node scripts/check-examples.mjs --run"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.1",

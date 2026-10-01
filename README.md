@@ -32,6 +32,20 @@ npm install
 npm run dev
 ```
 
+## Language editions and example checks
+
+The default edition is `0.1.0-dev`; older editions remain available as historical documentation.
+With the current compiler installed in the sibling `azora-lang` checkout:
+
+```bash
+npm run test:examples
+# Override the compiler path when needed:
+AZORA_BIN=/path/to/azora npm run test:examples
+```
+
+The checker compiles every complete Azora program in the current edition and runs its
+entry points and test blocks. It does not execute Bash or Kotlin infrastructure snippets.
+
 ## Build
 
 ```bash
