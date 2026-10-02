@@ -34,7 +34,7 @@ npm run dev
 
 ## Language editions and example checks
 
-The default edition is `0.1.0-dev`; older editions remain available as historical documentation.
+The default edition is `0.1-dev`; older editions remain available as historical documentation.
 With the current compiler installed in the sibling `azora-lang` checkout:
 
 ```bash

@@ -3,14 +3,14 @@ import { ApiTable, CodeBlock, Lead, Note, Section, Subheading } from './Shared.j
 /**
  * "Current Language" - the whole language as one guided story.
  * Chapters are ordered so each builds on the previous: you can read top to bottom.
- * Every example is a complete program checked against the 0.1.0-dev compiler.
+ * Every example is a complete program checked against the 0.1-dev compiler.
  */
 
 export function CurrentLanguage() {
   return (
     <Section id="v010dev-language" title="1. Current Language">
       <Lead>
-        This development edition tracks Azora 0.1.0-dev. It is organised as a single story - read from the top,
+        This development edition tracks Azora 0.1-dev. It is organised as a single story - read from the top,
         or jump to any chapter. Syntax may still change before 0.1 is released.
       </Lead>
       <p>

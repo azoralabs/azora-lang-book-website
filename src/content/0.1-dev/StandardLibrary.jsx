@@ -21,7 +21,7 @@ import std.io
 import std.container.list
 
 func main() {
-    fin tags = listOf("azora", "0.1.0-dev")
+    fin tags = listOf("azora", "0.1-dev")
     println(tags.size)
 }`}</CodeBlock>
       <Note>All APIs in this development edition may change. A declaration in the library does not
@@ -65,7 +65,7 @@ import std.io
 
 func main() {
     print("Azora ")
-    println("0.1.0-dev")
+    println("0.1-dev")
     println(42)
     println(3.14)
 }`}</CodeBlock>

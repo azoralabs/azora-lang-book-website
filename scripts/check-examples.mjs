@@ -27,7 +27,7 @@ const here = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(here, '..')
 const args = process.argv.slice(2)
 const alsoRun = args.includes('--run')
-const edition = args.find((a) => !a.startsWith('--')) || '0.1.0-dev'
+const edition = args.find((a) => !a.startsWith('--')) || '0.1-dev'
 const contentDir = path.join(root, 'src', 'content', edition)
 
 const AZORA = process.env.AZORA_BIN
