@@ -882,6 +882,33 @@ func main() {
     report(Circle(1.0))
     report(Square(2.0))
 }`}</CodeBlock>
+
+      <Subheading>1.11.2 Deriving implementations</Subheading>
+      <p>
+        Use <code>derives Equal</code> for one spec, or <code>derives (Copy, Clone, Equal, Hash)</code>
+        for several. A pack has at most one <code>derives</code> clause. The compiler generates an implementation
+        for each listed spec from the pack’s fields.
+      </p>
+      <CodeBlock>{`module playground
+
+import std.io
+import std.traits
+
+// One spec is written without parentheses.
+pack Point derives Equal {
+    fin x: Int
+    fin y: Int
+}
+
+// Several specs share one parenthesized list.
+pack Text derives (Copy, Clone, Equal, Hash) {
+    fin value: Int
+}
+
+func main() {
+    println(Point(1, 2) == Point(1, 2))
+    println(Text(7) == Text(7))
+}`}</CodeBlock>
     </Section>
   )
 }
@@ -1105,6 +1132,7 @@ export function MemoryModel() {
         ['alloc^ expr', 'Heap-allocates a value behind a writable pointer (T^).'],
         ['*p / *p = v', 'Reads / writes through a pointer.'],
         ['purge p', 'Releases a value deterministically.'],
+        ['purge (x, y, z)', 'Releases each listed value in order.'],
         ['unsafe { … }', 'A block that opts out of safety checks.'],
         ['x.clone()', 'A deep, independent copy.'],
       ]} />
@@ -1125,6 +1153,15 @@ func main() {
         fin raw: Int* = alloc 42
         println(*raw)
     }
+}`}</CodeBlock>
+      <p>Use parentheses when releasing several values in one statement.</p>
+      <CodeBlock>{`module playground
+
+func main() {
+    let x: Int* = alloc .()
+    let y: Int* = alloc .()
+    let z: Int* = alloc .()
+    purge (x, y, z)
 }`}</CodeBlock>
     </Section>
   )
