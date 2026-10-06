@@ -71,12 +71,16 @@ for (const file of files) {
     if (!/^(?:(?:exposed|confined) )*module /.test(code)) { skipped += 1; continue }
 
     const name = `${file.replace(/\.jsx$/, '')}-${index}.az`
-    const onDisk = path.join(tmp, name)
+    // The CLI discovers sibling modules: each independent book example needs
+    // its own source root so earlier snippets cannot alter later checks.
+    const exampleDir = path.join(tmp, name.replace(/\.az$/, ''))
+    await fs.mkdir(exampleDir)
+    const onDisk = path.join(exampleDir, 'main.az')
     await fs.writeFile(onDisk, code + '\n')
     checked += 1
     const stages = [['check', onDisk]]
     if (alsoRun && /\bfunc\s+main\s*\(/.test(code)) stages.push(['run', onDisk])
-    if (alsoRun && /\btest\s+"/.test(code)) stages.push(['test', onDisk])
+    if (alsoRun && /\btest\s+"/.test(code)) stages.push(['test', onDisk, '--strict'])
     for (const stage of stages) {
       try {
         await run(AZORA, stage, { timeout: 120000 })
